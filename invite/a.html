@@ -5,31 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>밍짜네 집들이 초대장</title>
 <meta property="og:title" content="밍짜네 집들이 초대장">
-<meta property="og:description" content="빈손으로 오세요. 3월 6일 토요일 저녁, 동탄 새집에서.">
+<meta property="og:description" content="민주 & 찬호가 이사했어요. 되는 날 골라주세요!">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap">
 <style>
-:root{
-  --paper:#f7f1e6; --paper-2:#efe6d5; --ink:#2b2621; --ink-2:#7a6e60; --line:#d9ccb6;
-  --no:#c8442b; --leaf:#4f6b4a;
-}
+:root{--paper:#f7f1e6; --paper-2:#efe6d5; --card:#fffaf1; --ink:#2b2621; --ink-2:#7a6e60; --line:#d9ccb6; --no:#c8442b}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{
-  background:var(--paper-2); color:var(--ink);
-  font-family:'Gowun Dodum',system-ui,'Apple SD Gothic Neo',sans-serif; font-size:15px; line-height:1.7;
-  word-break:keep-all; -webkit-text-size-adjust:100%;
-}
-.sheet{
-  max-width:440px; margin:0 auto; min-height:100vh; background:var(--paper);
-  padding:56px 24px 40px;
-  background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(120,100,70,.06) 31px 32px);
-}
-.kicker{font-family:'Gowun Batang',serif; letter-spacing:.32em; font-size:11px; color:var(--ink-2); text-align:center; margin:0 0 18px}
+body{background:var(--paper-2); color:var(--ink); font-family:'Gowun Dodum',system-ui,'Apple SD Gothic Neo',sans-serif; font-size:15px; line-height:1.7; word-break:keep-all; -webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+.sheet{max-width:440px; margin:0 auto; min-height:100vh; background:var(--paper); padding:0 24px 40px;
+  background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(120,100,70,.06) 31px 32px)}
+.hero{margin:0 -24px; aspect-ratio:4/5; background:var(--paper-2) center/cover no-repeat; display:flex; align-items:center; justify-content:center; color:var(--ink-2); font-size:13px}
+.kicker{font-family:'Gowun Batang',serif; letter-spacing:.32em; font-size:11px; color:var(--ink-2); text-align:center; margin:40px 0 14px}
 h1{font-family:'Gowun Batang',serif; font-weight:700; font-size:30px; line-height:1.3; text-align:center; margin:0}
-h1 small{display:block; font-size:15px; font-weight:400; color:var(--ink-2); margin-top:8px; letter-spacing:.02em}
-.rule{display:flex; align-items:center; gap:10px; margin:34px 0 28px; color:var(--ink-2); font-size:12px}
+h1 small{display:block; font-size:15px; font-weight:400; color:var(--ink-2); margin-top:8px}
+.rule{display:flex; align-items:center; gap:10px; margin:44px 0 26px; color:var(--ink-2); font-size:12px; font-family:'Gowun Batang',serif; letter-spacing:.1em}
 .rule::before,.rule::after{content:""; flex:1; height:1px; background:var(--line)}
 
 .nos{list-style:none; margin:0; padding:0; display:grid; gap:22px}
@@ -40,49 +32,73 @@ h1 small{display:block; font-size:15px; font-weight:400; color:var(--ink-2); mar
 
 .letter{font-family:'Nanum Pen Script',cursive; font-size:23px; line-height:1.55; margin:0; color:#3a3129}
 .letter .sign{display:block; text-align:right; margin-top:8px}
+.gallery{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.gallery img{width:100%; aspect-ratio:1; object-fit:cover; display:block}
 
-h2{font-family:'Gowun Batang',serif; font-size:13px; letter-spacing:.24em; color:var(--ink-2); font-weight:400; margin:0 0 14px}
-.when{text-align:center}
-.when .date{font-family:'Gowun Batang',serif; font-size:26px; font-weight:700; margin:0}
-.when .time{margin:2px 0 0; color:var(--ink-2)}
-.cal{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin:22px auto 0; max-width:300px; font-size:13px; text-align:center}
-.cal .h{color:var(--ink-2); font-size:11px; padding-bottom:6px}
-.cal .h:first-child,.cal .sun{color:var(--no)}
-.cal div{padding:6px 0}
-.cal .on{position:relative; color:#fff; font-weight:700}
-.cal .on::before{content:""; position:absolute; left:50%; top:50%; width:28px; height:28px; transform:translate(-50%,-50%); border-radius:50%; background:var(--no); z-index:-1}
-.cal .on{z-index:0}
-.dday{text-align:center; font-size:13px; color:var(--ink-2); margin-top:12px}
-.dday b{color:var(--no); font-weight:400}
+.center{text-align:center}
+.lead{font-family:'Gowun Batang',serif; font-size:20px; font-weight:700; margin:0}
+.muted{color:var(--ink-2); font-size:13.5px; margin:4px 0 0}
 
-.where p{margin:0}
-.where .addr{font-family:'Gowun Batang',serif; font-size:18px; font-weight:700}
-.where .note{font-size:13.5px; color:var(--ink-2); margin-top:8px}
+/* 폼 */
+.rv-form{display:grid; gap:18px; margin-top:22px}
+.rv-field{display:grid; gap:8px; margin:0}
+.rv-label{font-family:'Gowun Batang',serif; font-size:14px; font-weight:700}
+.rv-hint{font-size:12.5px; color:var(--ink-2); margin:0}
+.rv-form input[name=name],.rv-form input[name=message],.rv-car{width:100%; min-height:46px; padding:0 12px; border:1px solid var(--line); border-radius:4px; background:var(--card); color:var(--ink); font:inherit; font-size:16px}
+.rv-seg,.rv-chips{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.rv-seg label,.rv-chips label{position:relative}
+.rv-seg input,.rv-chips input{position:absolute; opacity:0; pointer-events:none}
+.rv-seg span,.rv-chips span{display:flex; align-items:center; justify-content:center; min-height:46px; border:1px solid var(--line); border-radius:4px; background:var(--card); font-size:14px; cursor:pointer}
+.rv-seg input:checked + span{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.rv-chips input:checked + span{border-color:var(--no); color:var(--no); background:#fbeee6; font-weight:700}
+.rv-chips input:checked + span::before{content:"✓ "}
+.rv-step{display:flex; align-items:center; width:max-content; border:1px solid var(--line); border-radius:4px; background:var(--card)}
+.rv-step button{width:46px; height:44px; border:0; background:none; font-size:20px; color:var(--ink); cursor:pointer}
+.rv-step output{min-width:52px; text-align:center}
+.rv-err{color:var(--no); font-size:13px; margin:0}
+.rv-err:empty{display:none}
+.rv-submit{min-height:54px; border:0; border-radius:4px; background:var(--ink); color:var(--paper); font-family:'Gowun Batang',serif; font-size:17px; font-weight:700; cursor:pointer}
+.rv-submit:disabled{opacity:.6}
+.rv-preview{font-size:12px; color:var(--ink-2); text-align:center; margin:-8px 0 0}
+
+/* 결과 */
+.results{margin-top:30px; padding:20px 18px; background:var(--card); border:1px solid var(--line); border-radius:4px; scroll-margin-top:16px}
+.rv-bars{display:grid; gap:10px}
+.rv-bar{display:grid; grid-template-columns:96px 1fr 24px; align-items:center; gap:10px; font-size:13.5px}
+.rv-bar-t{height:10px; background:var(--paper-2); border-radius:5px; overflow:hidden}
+.rv-bar-t i{display:block; height:100%; background:var(--ink-2); border-radius:5px; transition:width .5s}
+.rv-bar.is-best .rv-bar-t i{background:var(--no)}
+.rv-bar.is-major .rv-bar-l{color:var(--no); font-weight:700}
+.rv-bar-n{text-align:right; font-variant-numeric:tabular-nums}
+.rv-sum{font-size:13px; color:var(--ink-2); margin:14px 0 0}
+.rv-sum b{color:var(--no)}
+.rv-people{margin-top:18px; padding-top:16px; border-top:1px dashed var(--line)}
+.rv-sub{font-size:13.5px; margin:0 0 8px}
+.rv-sub b{color:var(--no)}
+.rv-names{list-style:none; margin:0 0 14px; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.rv-names li{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:2px 11px; font-size:13.5px}
+.rv-names em{display:block; font-style:normal; font-size:11.5px; color:var(--ink-2)}
+.rv-names small{color:var(--no)}
+.rv-cars{list-style:none; margin:0 0 6px; padding:0; font-size:13.5px}
+.rv-cars li{display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dotted var(--line)}
+.rv-cars code{font-family:inherit; letter-spacing:.06em}
+.rv-no{color:var(--ink-2); margin-top:12px}
+.rv-empty{border:0!important; background:none!important; color:var(--ink-2); padding:0!important}
+
+.addr{font-family:'Gowun Batang',serif; font-size:18px; font-weight:700; margin:0}
 .btns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:16px}
-.btn{
-  display:flex; align-items:center; justify-content:center; min-height:44px; padding:0 8px;
-  border:1px solid var(--line); border-radius:4px; background:#fffaf1; color:var(--ink);
-  font:inherit; font-size:13.5px; text-decoration:none; cursor:pointer
-}
-.btn:active{background:var(--paper-2)}
-
-.facts{margin:0; display:grid; grid-template-columns:72px 1fr; row-gap:10px; font-size:14.5px}
-.facts dt{color:var(--ink-2)}
-.facts dd{margin:0}
-
-.rsvp{text-align:center; margin-top:40px}
-.rsvp p{margin:0 0 14px; font-size:14px; color:var(--ink-2)}
-.cta{
-  display:block; width:100%; min-height:54px; border:0; border-radius:4px; background:var(--ink); color:var(--paper);
-  font-family:'Gowun Batang',serif; font-size:17px; font-weight:700; text-decoration:none; line-height:54px
-}
-footer{margin-top:48px; text-align:center; font-size:12px; color:var(--ink-2)}
-.toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:20px; font-size:13px; transition:.25s; pointer-events:none}
+.btn{display:flex; align-items:center; justify-content:center; min-height:44px; padding:0 8px; border:1px solid var(--line); border-radius:4px; background:var(--card); color:var(--ink); font:inherit; font-size:13.5px; text-decoration:none; cursor:pointer}
+.facts{margin:20px 0 0; display:grid; grid-template-columns:52px 1fr; row-gap:10px; font-size:14.5px}
+.facts dt{color:var(--ink-2)} .facts dd{margin:0}
+.share{margin-top:48px; display:grid; gap:8px}
+footer{margin-top:28px; text-align:center; font-size:12px; color:var(--ink-2)}
+.toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:20px; font-size:13px; transition:.25s; pointer-events:none; z-index:9}
 .toast.show{opacity:1; transform:translate(-50%,0)}
 </style>
 </head>
 <body>
 <main class="sheet">
+  <div class="hero" id="hero">대표 사진 자리</div>
   <p class="kicker">HOUSEWARMING · 2027</p>
   <h1>밍짜네 집들이 초대장<small>우리, 이사했어요</small></h1>
 
@@ -98,88 +114,63 @@ footer{margin-top:48px; text-align:center; font-size:12px; color:var(--ink-2)}
     드디어 우리 집이 생겼어요.<br>
     아직 짐 정리는 덜 됐지만,<br>
     제일 먼저 보여주고 싶은 사람들을 불러요.<br>
-    맛있는 거 해놓고 기다릴게요.
-    <span class="sign">— 밍 &amp; 짜</span>
+    요리는 자신 없어서 배달로 거하게 쏠게요.
+    <span class="sign" id="sign"></span>
   </p>
 
-  <div class="rule">언제</div>
-  <section class="when">
-    <p class="date" id="dateText"></p>
-    <p class="time" id="timeText"></p>
-    <div class="cal" id="cal"></div>
-    <p class="dday" id="dday"></p>
+  <div id="gallWrap" hidden><div class="rule">우리 집</div><div class="gallery" id="gallery"></div></div>
+
+  <div class="rule" id="whenRule">언제 올래?</div>
+  <section>
+    <div class="center">
+      <p class="lead" id="whenLead"></p>
+      <p class="muted" id="whenSub"></p>
+    </div>
+    <div id="form"></div>
+    <div class="results" id="results"></div>
   </section>
 
-  <div class="rule">어디서</div>
-  <section class="where">
-    <p class="addr" id="addr"></p>
-    <p class="note" id="addrNote"></p>
+  <div class="rule">오시는 길</div>
+  <section>
+    <p class="addr" id="unit"></p>
+    <p class="muted" id="road"></p>
     <div class="btns">
       <a class="btn" id="kakaoMap" target="_blank" rel="noopener">카카오맵</a>
       <a class="btn" id="naverMap" target="_blank" rel="noopener">네이버지도</a>
       <button class="btn" type="button" id="copyAddr">주소 복사</button>
     </div>
+    <dl class="facts">
+      <dt>주차</dt><dd id="parking"></dd>
+      <dt>메뉴</dt><dd id="menu"></dd>
+    </dl>
   </section>
 
-  <div class="rule">알아두면 좋아요</div>
-  <dl class="facts" id="facts"></dl>
-
-  <section class="rsvp">
-    <p>오는지 미리 알려주면 그만큼 고기를 더 사둘게요</p>
-    <a class="cta" id="rsvp">참석한다고 말하기</a>
-  </section>
-
-  <footer>밍짜네 · 동탄</footer>
+  <div class="share"><button class="btn" type="button" id="copyLink">초대장 링크 복사</button></div>
+  <footer id="foot"></footer>
 </main>
 <div class="toast" id="toast"></div>
 
+<script src="config.js"></script>
+<script src="rsvp.js"></script>
+<script src="form.js"></script>
 <script>
-/* ── 여기만 고치면 됩니다 ─────────────────────────── */
-const INVITE = {
-  date: '2027-03-06', start: '18:00', end: '22:00',
-  address: '동탄 ○○아파트 ○○○동 ○○○○호',
-  mapQuery: '동탄 ○○아파트',
-  addrNote: '정문으로 들어와서 ○○○동 공동현관 → 호출 ○○○○',
-  facts: [
-    ['주차', '방문 차량 등록이 필요해요. 차량 번호 미리 알려주세요.'],
-    ['메뉴', '아직 고민 중 (먹고 싶은 거 말해주면 반영)'],
-    ['드레스코드', '편한 옷. 바닥에 앉아도 되는 옷.'],
-  ],
-  phone: '010-0000-0000',
-  rsvpText: '밍짜네 집들이 갈게요! 이름: / 인원: / 차량번호(있으면): ',
-};
-/* ──────────────────────────────────────────────── */
-const $ = id => document.getElementById(id);
-const d = new Date(INVITE.date + 'T00:00:00');
-const W = ['일','월','화','수','목','금','토'];
-const ampm = t => { const [h,m] = t.split(':').map(Number); return (h<12?'오전 ':'오후 ') + ((h%12)||12) + '시' + (m?` ${m}분`:''); };
-$('dateText').textContent = `${d.getMonth()+1}월 ${d.getDate()}일 ${W[d.getDay()]}요일`;
-$('timeText').textContent = `${ampm(INVITE.start)} ~ ${ampm(INVITE.end)}`;
-(function cal(){
-  const c = $('cal'); W.forEach(w => c.insertAdjacentHTML('beforeend', `<div class="h">${w}</div>`));
-  const first = new Date(d.getFullYear(), d.getMonth(), 1).getDay();
-  const last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
-  for (let i=0;i<first;i++) c.insertAdjacentHTML('beforeend','<div></div>');
-  for (let n=1;n<=last;n++){
-    const dow = (first+n-1)%7;
-    c.insertAdjacentHTML('beforeend', `<div class="${n===d.getDate()?'on':''} ${dow===0?'sun':''}">${n}</div>`);
-  }
-})();
-const today = new Date(); today.setHours(0,0,0,0);
-const diff = Math.round((d - today)/864e5);
-$('dday').innerHTML = diff>0 ? `집들이까지 <b>${diff}일</b> 남았어요` : diff===0 ? '<b>오늘이에요!</b>' : '와줘서 고마웠어요';
-$('addr').textContent = INVITE.address;
-$('addrNote').textContent = INVITE.addrNote;
-$('kakaoMap').href = 'https://map.kakao.com/link/search/' + encodeURIComponent(INVITE.mapQuery);
-$('naverMap').href = 'https://map.naver.com/p/search/' + encodeURIComponent(INVITE.mapQuery);
-$('facts').innerHTML = INVITE.facts.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
-$('rsvp').href = `sms:${INVITE.phone}${/iPhone|iPad/.test(navigator.userAgent)?'&':'?'}body=${encodeURIComponent(INVITE.rsvpText)}`;
-function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1600); }
-$('copyAddr').onclick = async () => {
-  try { await navigator.clipboard.writeText(INVITE.address); }
-  catch { const ta=document.createElement('textarea'); ta.value=INVITE.address; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
-  toast('주소를 복사했어요');
-};
+const C = INVITE, $ = id => document.getElementById(id);
+const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1600); };
+$('sign').textContent = `— ${C.hosts.join(' & ')}`;
+$('foot').textContent = `${C.hosts.join(' · ')} · 동탄`;
+if (C.photos.hero) { $('hero').style.backgroundImage = `url(photos/${C.photos.hero})`; $('hero').textContent = ''; }
+if (C.photos.gallery.length) { $('gallWrap').hidden = false; $('gallery').innerHTML = C.photos.gallery.map(p => `<img src="photos/${p}" alt="" loading="lazy">`).join(''); }
+const time = `${RSVP.fmt.time(C.start)} ~ ${RSVP.fmt.time(C.end)}`;
+if (C.confirmedDate) { $('whenRule').textContent = '언제'; $('whenLead').textContent = RSVP.fmt.mdw(C.confirmedDate); $('whenSub').textContent = time; }
+else { $('whenLead').textContent = '3월 토요일 중 하루'; $('whenSub').textContent = `${time} · 제일 많이 되는 날로 정해요`; }
+$('unit').textContent = `${C.complex} ${C.unit}`;
+$('road').textContent = C.road;
+$('parking').textContent = C.parking;
+$('menu').textContent = C.menu;
+const m = RSVP.maps(); $('kakaoMap').href = m.kakao; $('naverMap').href = m.naver;
+$('copyAddr').onclick = () => RSVP.copy(RSVP.address()).then(() => toast('주소를 복사했어요'));
+$('copyLink').onclick = () => RSVP.copy(location.href).then(() => toast('링크를 복사했어요'));
+RSVPUI.mount({ form: $('form'), results: $('results'), labels: { submit: '이렇게 보낼게요' } });
 </script>
 </body>
 </html>
