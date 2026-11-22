@@ -2,6 +2,7 @@
 (function () {
   const C = window.INVITE, R = window.RSVP, esc = R.esc;
   let rows = [];
+  const openDates = new Set();
 
   function formHTML(L) {
     const open = R.voteOpen();
@@ -40,15 +41,23 @@
     const t = R.tally(rows);
     const open = R.voteOpen();
     const max = Math.max(1, ...Object.values(t.counts));
+    const going0 = rows.filter(r => r.attend !== 'no');
+    const voters = d => going0.filter(r => (r.dates || []).includes(d));
     const bars = C.confirmedDate ? '' : `
-      <div class="rv-bars">${C.dates.map(d => `
-        <div class="rv-bar ${d === t.majority ? 'is-major' : ''} ${d === t.best && t.counts[d] ? 'is-best' : ''}">
-          <span class="rv-bar-l">${R.fmt.mdw(d)}</span>
-          <span class="rv-bar-t"><i style="width:${(t.counts[d] / max) * 100}%"></i></span>
-          <span class="rv-bar-n">${t.counts[d]}</span>
-        </div>`).join('')}
+      <p class="rv-title">투표 현황 <span>날짜를 누르면 누가 골랐는지 보여요</span></p>
+      <div class="rv-bars">${C.dates.map(d => {
+        const vs = voters(d), on = openDates.has(d);
+        return `
+        <div class="rv-row ${on ? 'is-open' : ''}">
+          <button type="button" class="rv-bar ${d === t.majority ? 'is-major' : ''} ${d === t.best && t.counts[d] ? 'is-best' : ''}" data-date="${d}" aria-expanded="${on}">
+            <span class="rv-bar-l">${R.fmt.mdw(d)}</span>
+            <span class="rv-bar-t"><i style="width:${(t.counts[d] / max) * 100}%"></i></span>
+            <span class="rv-bar-n">${t.counts[d]}</span>
+          </button>
+          <div class="rv-voters" ${on ? '' : 'hidden'}>${vs.length ? vs.map(r => `<span>${esc(r.name)}${Number(r.count) > 1 ? ` +${Number(r.count) - 1}` : ''}</span>`).join('') : '<em>아직 아무도 안 골랐어요</em>'}</div>
+        </div>`; }).join('')}
       </div>
-      <p class="rv-sum">${t.n ? `${t.n}명 응답 · ${t.majority ? `<b>${R.fmt.md(t.majority)}</b>이 과반이에요` : '아직 과반인 날이 없어요'}` : '아직 아무도 안 냈어요. 1등 해주세요'}${open && C.voteDeadline ? ` · ${R.fmt.md(C.voteDeadline)} 마감` : ''}</p>`;
+      <p class="rv-sum">${t.n ? `${t.n}명 응답 · ${t.majority ? `<b>${R.fmt.md(t.majority)}</b>이 과반이에요` : '아직 과반인 날이 없어요'}` : '아직 아무도 안 냈어요. 1등 해주세요'}${open && C.voteDeadline ? ` · ${R.fmt.md(C.voteDeadline)} 마감` : ''}${R.preview ? '' : ` · <span class="rv-live">실시간</span>`}</p>`;
     const going = rows.filter(r => r.attend !== 'no');
     const cars = going.filter(r => r.car);
     const no = rows.filter(r => r.attend === 'no');
@@ -106,8 +115,22 @@
       };
       sync();
       results.innerHTML = '<p class="rv-hint">불러오는 중…</p>';
+      results.addEventListener('click', e => {
+        const b = e.target.closest('.rv-bar[data-date]'); if (!b) return;
+        const d = b.dataset.date; openDates.has(d) ? openDates.delete(d) : openDates.add(d);
+        const row = b.parentElement, on = openDates.has(d);
+        row.classList.toggle('is-open', on); b.setAttribute('aria-expanded', on); row.querySelector('.rv-voters').hidden = !on;
+      });
       try { rows = await R.list(); } catch { rows = []; }
       render();
+      if (!R.preview) {
+        const refresh = async () => {
+          if (document.hidden) return;
+          try { const next = await R.list(); if (JSON.stringify(next) !== JSON.stringify(rows)) { rows = next; render(); } } catch {}
+        };
+        setInterval(refresh, 15000);
+        document.addEventListener('visibilitychange', refresh);
+      }
     },
   };
 })();
