@@ -204,7 +204,7 @@ footer{margin-top:28px; text-align:center; font-size:12px; color:var(--ink-2)}
 <script>
 const C = INVITE, $ = id => document.getElementById(id);
 const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1600); };
-$('sign').textContent = `— ${C.hosts.join(' & ')}`;
+$('sign').textContent = `- ${C.hosts.join('&')} -`;
 $('foot').textContent = C.hosts.join(' · ');
 if (C.photos.gallery.length) { $('gallWrap').hidden = false; $('gallery').innerHTML = C.photos.gallery.map(p => `<img src="photos/${p}" alt="" loading="lazy">`).join(''); }
 const time = `${RSVP.fmt.time(C.start)} ~ ${RSVP.fmt.time(C.end)}`;
