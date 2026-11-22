@@ -20,9 +20,6 @@
         <div class="rv-chips">${C.dates.map(d => `<label><input type="checkbox" name="dates" value="${d}"><span>${R.fmt.mdw(d)}</span></label>`).join('')}</div>`
         : `<p class="rv-hint">${C.confirmedDate ? R.fmt.mdw(C.confirmedDate) + '로 확정됐어요' : '투표가 마감됐어요'}</p>`}
       </div>
-      <div class="rv-field rv-yes"><span class="rv-label">${L.count}</span>
-        <div class="rv-step"><button type="button" data-d="-1" aria-label="한 명 빼기">−</button><output name="countOut">1명</output><button type="button" data-d="1" aria-label="한 명 더">+</button></div>
-        <input type="hidden" name="count" value="1"></div>
       <div class="rv-field rv-yes"><span class="rv-label">${L.car}</span>
         <div class="rv-seg">
           <label><input type="radio" name="hasCar" value="0" checked><span>대중교통·택시</span></label>
@@ -54,7 +51,7 @@
             <span class="rv-bar-t"><i style="width:${(t.counts[d] / max) * 100}%"></i></span>
             <span class="rv-bar-n">${t.counts[d]}</span>
           </button>
-          <div class="rv-voters" ${on ? '' : 'hidden'}>${vs.length ? vs.map(r => `<span>${esc(r.name)}${Number(r.count) > 1 ? ` +${Number(r.count) - 1}` : ''}</span>`).join('') : '<em>아직 아무도 안 골랐어요</em>'}</div>
+          <div class="rv-voters" ${on ? '' : 'hidden'}>${vs.length ? vs.map(r => `<span>${esc(r.name)}</span>`).join('') : '<em>아직 아무도 안 골랐어요</em>'}</div>
         </div>`; }).join('')}
       </div>
       <p class="rv-sum">${t.n ? `${t.n}명 응답 · ${t.majority ? `<b>${R.fmt.md(t.majority)}</b>이 과반이에요` : '아직 과반인 날이 없어요'}` : '아직 아무도 안 냈어요. 1등 해주세요'}${open && C.voteDeadline ? ` · ${R.fmt.md(C.voteDeadline)} 마감` : ''}${R.preview ? '' : ` · <span class="rv-live">실시간</span>`}</p>`;
@@ -64,7 +61,7 @@
     return `${bars}
       <div class="rv-people">
         <p class="rv-sub">${L.going} <b>${t.people}</b>명</p>
-        <ul class="rv-names">${going.map(r => `<li>${esc(r.name)}${Number(r.count) > 1 ? ` <small>+${Number(r.count) - 1}</small>` : ''}${r.message ? `<em>${esc(r.message)}</em>` : ''}</li>`).join('') || '<li class="rv-empty">아직 없어요</li>'}</ul>
+        <ul class="rv-names">${going.map(r => `<li>${esc(r.name)}${r.message ? `<em>${esc(r.message)}</em>` : ''}</li>`).join('') || '<li class="rv-empty">아직 없어요</li>'}</ul>
         ${cars.length ? `<p class="rv-sub">방문차량 등록 <b>${cars.length}</b>대</p>
         <ul class="rv-cars">${cars.map(r => `<li><span>${esc(r.name)}</span><code>${esc(R.fmt.car(r.car))}</code></li>`).join('')}</ul>
         <p class="rv-hint">차량번호는 뒷자리만 보여요. 전체 번호는 저희만 봐요.</p>` : ''}
@@ -84,14 +81,10 @@
         f.elements.car.hidden = f.elements.hasCar.value !== '1';
       };
       f.addEventListener('change', sync);
-      f.querySelectorAll('.rv-step button').forEach(b => b.onclick = () => {
-        const v = Math.max(1, Math.min(10, Number(f.elements.count.value) + Number(b.dataset.d)));
-        f.elements.count.value = v; f.elements.countOut.value = v + '명';
-      });
       f.elements.name.addEventListener('change', () => {
         const mine = rows.find(r => r.name.replace(/\s+/g, '') === f.elements.name.value.replace(/\s+/g, ''));
         if (!mine) return;
-        f.elements.attend.value = mine.attend; f.elements.count.value = mine.count || 1; f.elements.countOut.value = (mine.count || 1) + '명';
+        f.elements.attend.value = mine.attend;
         f.querySelectorAll('[name=dates]').forEach(c => c.checked = (mine.dates || []).includes(c.value));
         f.elements.hasCar.value = mine.car ? '1' : '0'; f.elements.car.value = mine.car || ''; f.elements.message.value = mine.message || '';
         sync();
@@ -106,7 +99,7 @@
         if (yes && f.elements.hasCar.value === '1' && f.elements.car.value.replace(/\s/g, '').length < 7) { err.textContent = '차량번호를 끝까지 적어주세요'; f.elements.car.focus(); return; }
         const btn = f.querySelector('.rv-submit'); btn.disabled = true; const label = btn.textContent; btn.textContent = '보내는 중…';
         try {
-          rows = await R.submit({ name: f.elements.name.value, attend: f.elements.attend.value, dates: yes ? dates : [], count: yes ? f.elements.count.value : 0,
+          rows = await R.submit({ name: f.elements.name.value, attend: f.elements.attend.value, dates: yes ? dates : [], count: yes ? 1 : 0,
             car: yes && f.elements.hasCar.value === '1' ? f.elements.car.value.trim() : '', message: f.elements.message.value.trim() });
           render(); btn.textContent = '받았어요! (고치려면 다시 보내기)';
           results.scrollIntoView({ behavior: 'smooth', block: 'start' });

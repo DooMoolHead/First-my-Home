@@ -35,7 +35,7 @@
     let best = null;
     C.dates.forEach(d => { if (!best || counts[d] > counts[best]) best = d; });
     const majority = best && n > 0 && counts[best] > n / 2 ? best : null;
-    return { n, counts, best, majority, people: going.reduce((s, r) => s + (Number(r.count) || 1), 0) };
+    return { n, counts, best, majority, people: n };
   }
 
   const dObj = s => new Date(s + 'T00:00:00');
