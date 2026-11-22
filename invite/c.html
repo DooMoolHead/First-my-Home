@@ -75,6 +75,9 @@ h1{font-family:'Black Han Sans',sans-serif; font-weight:400; font-size:31px; lin
 .nos li{display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:baseline; padding:12px 0; border-bottom:1px dashed var(--line)}
 .nos .no{font-family:'Black Han Sans',sans-serif; color:var(--no); font-size:38px; line-height:.95}
 .nos b{font-family:'Black Han Sans',sans-serif; font-weight:400; font-size:25px; line-height:1.15}
+.nos .su{grid-column:1/-1; margin:12px 0 2px; border:1.5px solid var(--w); padding:6px}
+.nos .su img{display:block; width:100%; aspect-ratio:1; object-fit:cover; object-position:64% 62%}
+.nos .su figcaption{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--w-2); padding-top:5px; letter-spacing:.04em}
 .nos li > span:not(.no){grid-column:2; color:var(--w-2); font-size:13px}
 
 .callout{border:1.5px dashed var(--hl); color:var(--hl); padding:10px 12px; font-size:13.5px; margin-top:12px!important}
@@ -177,7 +180,7 @@ h1{font-family:'Black Han Sans',sans-serif; font-weight:400; font-size:31px; lin
     <div class="sec-h"><span class="tag">01</span><h2>현관 · 금지 사항</h2><span class="dim">ENTRANCE</span></div>
     <ul class="nos">
       <li><span class="no">No!</span><b>집들이 선물</b><span>두 손은 가볍게, 추억은 무겁게</span></li>
-      <li><span class="no">No!</span><b>수 아들</b><span>마음도 편하게</span></li>
+      <li><span class="no">No!</span><b>수 아들</b><span>마음도 편하게</span><figure class="su"><img src="photos/no-su-adeul.jpg" alt="수 아들 사진 (얼굴 모자이크)" loading="lazy"><figcaption>FIG. 2 · 수 아들 (모자이크 처리됨)</figcaption></figure></li>
       <li><span class="no">No!</span><b>칼부림</b><span>이번 집에 러그는 없어요</span></li>
     </ul>
   </section>
