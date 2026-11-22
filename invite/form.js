@@ -10,7 +10,7 @@
     return `
     <form class="rv-form" novalidate>
       <label class="rv-field"><span class="rv-label">${L.name}</span>
-        <input name="name" maxlength="20" autocomplete="name" placeholder="이름 (같은 이름으로 다시 내면 수정돼요)" required></label>
+        <input name="name" maxlength="20" autocomplete="name" placeholder="이름" required></label>
       <div class="rv-field"><span class="rv-label">${L.attend}</span>
         <div class="rv-seg">
           <label><input type="radio" name="attend" value="yes" checked><span>갈게요</span></label>
