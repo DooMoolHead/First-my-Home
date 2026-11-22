@@ -48,10 +48,8 @@ h1{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:27px; margin:2
 .nos b{font-size:21px; font-weight:700; letter-spacing:-.02em}
 .nos .su{grid-column:1/-1; margin:12px 0 2px; border:1px solid var(--hair); padding:6px; background:#fff}
 .nos .su img{display:block; width:100%; aspect-ratio:1; object-fit:cover; object-position:64% 62%}
-.nos .mem div{display:grid; grid-template-columns:1fr 1fr; gap:4px}
-.nos .mem img{display:block; width:100%; aspect-ratio:3/4; object-fit:cover}
-.nos .knife div{grid-template-columns:1fr 1fr}
-.nos .knife img:first-child{grid-column:1/-1; aspect-ratio:4/3; object-position:50% 40%}
+.nos .mem div{display:flex; gap:3px; align-items:flex-start}
+.nos .mem img{flex:var(--r) 1 0; min-width:0; width:0; height:auto; aspect-ratio:var(--r); object-fit:cover}
 .nos .su figcaption{font-size:11px; color:var(--ink-2); padding-top:5px}
 .nos li > span:not(.no){grid-column:2; color:var(--ink-2); font-size:13px; margin-top:2px}
 
@@ -154,9 +152,9 @@ h1{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:27px; margin:2
   <section class="art">
     <h2>제2조 <span>(금지 사항)</span></h2>
     <ul class="nos">
-      <li><span class="no">No!</span><b>집들이 선물</b><span>두 손은 가볍게, 추억은 무겁게</span><figure class="su mem"><div><img src="photos/memory-1.jpg" alt="추억 사진 1 (모자이크)" loading="lazy"><img src="photos/memory-2.jpg" alt="추억 사진 2 (모자이크)" loading="lazy"><img src="photos/memory-3.jpg" alt="추억 사진 3 (모자이크)" loading="lazy"><img src="photos/memory-4.jpg" alt="추억 사진 4 (모자이크)" loading="lazy"></div><figcaption>별첨 1-2 · 추억은 두둑하게 (모자이크 처리)</figcaption></figure></li>
+      <li><span class="no">No!</span><b>집들이 선물</b><span>두 손은 가볍게, 추억은 무겁게</span><figure data-group class="su mem"><div><img style="--r:0.75" src="photos/memory-1.jpg" alt="추억 사진 1 (모자이크)" loading="lazy"><img style="--r:0.685" src="photos/memory-2.jpg" alt="추억 사진 2 (모자이크)" loading="lazy"><img style="--r:0.75" src="photos/memory-3.jpg" alt="추억 사진 3 (모자이크)" loading="lazy"><img style="--r:0.75" src="photos/memory-4.jpg" alt="추억 사진 4 (모자이크)" loading="lazy"></div><figcaption>별첨 1-2 · 추억은 두둑하게 (모자이크 처리)</figcaption></figure></li>
       <li><span class="no">No!</span><b>수 아들</b><span>마음도 편하게</span><figure class="su"><img src="photos/no-su-adeul.jpg" alt="수 아들 사진 (얼굴 모자이크)" loading="lazy"><figcaption>별첨 2 · 수 아들 (초상권 보호를 위해 모자이크 처리)</figcaption></figure></li>
-      <li><span class="no">No!</span><b>칼부림</b><span>이번 집에 러그는 없어요</span><figure class="su mem knife"><div><img src="photos/knife-1.jpg" alt="칼부림 장난 사진 1" loading="lazy"><img src="photos/knife-2.jpg" alt="칼부림 장난 사진 2" loading="lazy"><img src="photos/knife-3.jpg" alt="칼부림 장난 사진 3" loading="lazy"></div><figcaption>별첨 3 · 칼부림 전과 기록 (모자이크 처리)</figcaption></figure></li>
+      <li><span class="no">No!</span><b>칼부림</b><span>이번 집에 러그는 없어요</span><figure data-group class="su mem knife"><div><img style="--r:0.75" src="photos/knife-1.jpg" alt="칼부림 장난 사진 1" loading="lazy"><img style="--r:0.565" src="photos/knife-2.jpg" alt="칼부림 장난 사진 2" loading="lazy"><img style="--r:0.75" src="photos/knife-3.jpg" alt="칼부림 장난 사진 3" loading="lazy"></div><figcaption>별첨 3 · 칼부림 전과 기록 (모자이크 처리)</figcaption></figure></li>
     </ul>
   </section>
 
@@ -204,6 +202,7 @@ h1{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:27px; margin:2
 <script src="config.js"></script>
 <script src="rsvp.js"></script>
 <script src="form.js"></script>
+<script src="lightbox.js"></script>
 <script>
 const C = INVITE, $ = id => document.getElementById(id);
 const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1600); };
