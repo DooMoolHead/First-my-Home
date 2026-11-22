@@ -137,8 +137,11 @@ h1 small em{font-style:normal; color:var(--no)}
 .addr{font-family:'Gowun Batang',serif; font-size:18px; font-weight:700; margin:0}
 .btns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:16px}
 .btn{display:flex; align-items:center; justify-content:center; min-height:44px; padding:0 8px; border:1px solid var(--line); border-radius:4px; background:var(--card); color:var(--ink); font:inherit; font-size:13.5px; text-decoration:none; cursor:pointer}
-.facts{margin:20px 0 0; display:grid; grid-template-columns:52px 1fr; row-gap:10px; font-size:14.5px}
-.facts dt{color:var(--ink-2)} .facts dd{margin:0}
+.facts{margin:20px 0 0; display:grid; grid-template-columns:64px 1fr; row-gap:12px; font-size:14.5px}
+.facts dt{color:var(--ink-2)} .facts dd{margin:0; min-width:0}
+.bus{display:grid; grid-template-columns:52px 1fr; gap:6px; margin-top:8px; line-height:1.6}
+.bus b{align-self:start; justify-self:start; font-size:12px; font-weight:700; color:#fff; background:var(--no); border-radius:3px; padding:1px 6px; margin-top:2px}
+.bus a{color:var(--ink); text-decoration:underline; text-decoration-color:var(--no); text-underline-offset:3px; text-decoration-thickness:1.5px}
 .share{margin-top:48px; display:grid; gap:8px}
 footer{margin-top:28px; text-align:center; font-size:12px; color:var(--ink-2)}
 .toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:20px; font-size:13px; transition:.25s; pointer-events:none; z-index:9}
@@ -189,7 +192,9 @@ footer{margin-top:28px; text-align:center; font-size:12px; color:var(--ink-2)}
     </div>
     <dl class="facts">
       <dt>주차</dt><dd id="parking"></dd>
-      <dt>메뉴</dt><dd id="menu"></dd>
+      <dt>대중교통</dt><dd>힐스테이트, 호반5차 정류장 하차
+        <span class="bus"><b>M4137</b><span><a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%97%AD%20M4137" target="_blank" rel="noopener">서울역</a>, <a href="https://map.naver.com/p/search/%EB%AA%85%EB%8F%99%EC%9E%85%EA%B5%AC%20M4137" target="_blank" rel="noopener">명동입구</a>(을지로입구역), <a href="https://map.naver.com/p/search/%EB%AA%85%EB%8F%99%EC%84%B1%EB%8B%B9%20M4137" target="_blank" rel="noopener">명동성당</a>(을지로3가역)</span></span>
+        <span class="bus"><b>6002</b><span><a href="https://map.naver.com/p/search/%EA%B0%95%EB%82%A8%EC%97%AD%206002" target="_blank" rel="noopener">강남역</a>, <a href="https://map.naver.com/p/search/%EC%96%91%EC%9E%AC%EC%97%AD%206002" target="_blank" rel="noopener">양재역</a></span></span></dd>
     </dl>
   </section>
 
@@ -214,7 +219,6 @@ else { $('whenLead').textContent = '3월 토요일 중 하루'; $('whenSub').tex
 $('unit').textContent = `${C.complex} ${C.unit}`;
 $('road').textContent = C.road;
 $('parking').textContent = C.parking;
-$('menu').textContent = C.menu;
 const m = RSVP.maps(); $('kakaoMap').href = m.kakao; $('naverMap').href = m.naver;
 $('copyAddr').onclick = () => RSVP.copy(RSVP.address()).then(() => toast('주소를 복사했어요'));
 $('copyLink').onclick = () => RSVP.copy(location.href).then(() => toast('링크를 복사했어요'));
