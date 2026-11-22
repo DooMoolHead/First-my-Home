@@ -219,20 +219,6 @@ const m = RSVP.maps(); $('kakaoMap').href = m.kakao; $('naverMap').href = m.nave
 $('copyAddr').onclick = () => RSVP.copy(RSVP.address()).then(() => toast('주소를 복사했어요'));
 $('copyLink').onclick = () => RSVP.copy(location.href).then(() => toast('링크를 복사했어요'));
 RSVPUI.mount({ form: $('form'), results: $('results'), labels: { submit: '등록' } });
-/* 사진 줄 높이를 첫 줄(집들이 선물)과 똑같이 맞추고, 흰 틀은 사진 폭에 맞춤 */
-function syncPhotoRows() {
-  const groups = [...document.querySelectorAll('.nos .mem')];
-  if (groups.length < 2) return;
-  groups.slice(1).forEach(g => { g.style.width = ''; g.querySelectorAll('img').forEach(i => { i.style.flex = ''; i.style.height = ''; i.style.width = ''; }); });
-  const h = groups[0].querySelector('img').offsetHeight;
-  if (!h) return;
-  groups.slice(1).forEach(g => {
-    g.style.width = 'fit-content'; g.style.marginLeft = 'auto'; g.style.marginRight = 'auto';
-    g.querySelectorAll('img').forEach(i => { const r = parseFloat(i.style.getPropertyValue('--r')) || .75; i.style.flex = 'none'; i.style.height = h + 'px'; i.style.width = (h * r) + 'px'; });
-  });
-}
-syncPhotoRows();
-addEventListener('resize', syncPhotoRows);
 </script>
 </body>
 </html>
