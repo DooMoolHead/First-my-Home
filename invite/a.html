@@ -209,8 +209,8 @@ $('sign').textContent = `- ${C.hosts.join('&')} -`;
 $('foot').textContent = C.hosts.join(' · ');
 if (C.photos.gallery.length) { $('gallWrap').hidden = false; $('gallery').innerHTML = C.photos.gallery.map(p => `<img src="photos/${p}" alt="" loading="lazy">`).join(''); }
 const time = `${RSVP.fmt.time(C.start)} ~ ${RSVP.fmt.time(C.end)}`;
-if (C.confirmedDate) { $('whenRule').textContent = '언제'; $('whenLead').textContent = RSVP.fmt.mdw(C.confirmedDate); $('whenSub').textContent = time; }
-else { $('whenLead').textContent = '3월 토요일 중 하루'; $('whenSub').textContent = `${time} · 제일 많이 되는 날로 정해요`; }
+if (C.confirmedDate) { $('whenRule').textContent = '언제'; $('whenLead').textContent = RSVP.fmt.mdw(C.confirmedDate); $('whenSub').textContent = '모이는 시간은 자유'; }
+else { $('whenLead').textContent = '3월 토요일 중 하루'; $('whenSub').textContent = '모이는 시간은 자유, 제일 많이 되는 날로 정해요'; }
 $('unit').textContent = `${C.complex} ${C.unit}`;
 $('road').textContent = C.road;
 $('parking').textContent = C.parking;
