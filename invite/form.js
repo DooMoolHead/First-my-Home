@@ -112,6 +112,7 @@
         f.elements.ride.hidden = f.elements.hasCar.value !== '2';
       };
       f.addEventListener('change', sync);
+      f.addEventListener('input', () => { const b = f.querySelector('.rv-submit'); if (b.classList.contains('is-done')) { b.classList.remove('is-done'); b.textContent = L.submit; } });
       const fill = mine => {
         f.elements.name.value = mine.name;
         f.elements.attend.value = mine.attend;
@@ -133,13 +134,13 @@
         if (!f.elements.name.value.trim()) { err.textContent = '이름을 적어주세요'; f.elements.name.focus(); return; }
         if (yes && R.voteOpen() && !dates.length) { err.textContent = '되는 날을 하나 이상 골라주세요'; return; }
         if (yes && f.elements.hasCar.value === '1' && f.elements.car.value.replace(/\s/g, '').length < 7) { err.textContent = '차량번호를 끝까지 적어주세요'; f.elements.car.focus(); return; }
-        const btn = f.querySelector('.rv-submit'); btn.disabled = true; const label = btn.textContent; btn.textContent = '보내는 중…';
+        const btn = f.querySelector('.rv-submit'); btn.disabled = true; const label = btn.textContent; btn.textContent = '등록 중…';
         try {
           rows = await R.submit({ name: f.elements.name.value, attend: f.elements.attend.value, dates: yes ? dates : [], count: yes ? 1 : 0,
             car: yes && f.elements.hasCar.value === '1' ? f.elements.car.value.trim() : '',
             transport: yes ? ['transit', 'car', 'ride'][Number(f.elements.hasCar.value)] : '',
             ride: yes && f.elements.hasCar.value === '2' ? f.elements.ride.value.trim() : '', message: f.elements.message.value.trim() });
-          render(); btn.textContent = '받았어요! (고치려면 다시 보내기)';
+          render(); btn.textContent = '등록완료!'; btn.classList.add('is-done');
           results.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } catch { err.textContent = '저장이 안 됐어요. 잠시 후 다시 눌러주세요'; btn.textContent = label; }
         btn.disabled = false;

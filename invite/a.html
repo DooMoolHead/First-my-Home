@@ -68,6 +68,7 @@ h1 small{display:block; font-size:15px; font-weight:400; color:var(--ink-2); mar
 .rv-err:empty{display:none}
 .rv-submit{min-height:54px; border:0; border-radius:4px; background:var(--ink); color:var(--paper); font-family:'Gowun Batang',serif; font-size:17px; font-weight:700; cursor:pointer}
 .rv-submit:disabled{opacity:.6}
+.rv-submit.is-done{background:var(--no)}
 .rv-preview{font-size:12px; color:var(--ink-2); text-align:center; margin:-8px 0 0}
 
 /* 결과 */
@@ -216,7 +217,7 @@ $('menu').textContent = C.menu;
 const m = RSVP.maps(); $('kakaoMap').href = m.kakao; $('naverMap').href = m.naver;
 $('copyAddr').onclick = () => RSVP.copy(RSVP.address()).then(() => toast('주소를 복사했어요'));
 $('copyLink').onclick = () => RSVP.copy(location.href).then(() => toast('링크를 복사했어요'));
-RSVPUI.mount({ form: $('form'), results: $('results'), labels: { submit: '이렇게 보낼게요' } });
+RSVPUI.mount({ form: $('form'), results: $('results'), labels: { submit: '등록' } });
 </script>
 </body>
 </html>
