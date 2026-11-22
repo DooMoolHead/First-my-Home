@@ -2,7 +2,7 @@
  * 밍짜네 집들이 — 참석/날짜투표 저장용 Google Apps Script
  * 사용법은 invite/README.md 참고. 시트 1행에 머리글이 자동으로 만들어집니다.
  */
-const HEAD = ['ts', 'name', 'attend', 'dates', 'count', 'car', 'message'];
+const HEAD = ['ts', 'name', 'attend', 'dates', 'count', 'car', 'message', 'transport', 'ride'];
 
 function sheet_() {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
@@ -15,6 +15,7 @@ function rows_() {
     ts: r[0], name: String(r[1]), attend: String(r[2] || 'yes'),
     dates: String(r[3] || '').split(',').filter(Boolean),
     count: Number(r[4]) || 1, car: String(r[5] || ''), message: String(r[6] || ''),
+    transport: String(r[7] || ''), ride: String(r[8] || ''),
   }));
 }
 function out_(o) {
@@ -32,7 +33,8 @@ function doPost(e) {
     if (!name) return out_({ ok: false, error: 'name' });
     const row = [new Date(), name, x.attend === 'no' ? 'no' : 'yes',
       (x.dates || []).slice(0, 8).join(','), Math.min(Number(x.count) || 1, 10),
-      String(x.car || '').slice(0, 15), String(x.message || '').slice(0, 200)];
+      String(x.car || '').slice(0, 15), String(x.message || '').slice(0, 200),
+      String(x.transport || '').slice(0, 10), String(x.ride || '').slice(0, 20)];
     const sh = sheet_();
     const names = sh.getRange(1, 2, sh.getLastRow(), 1).getValues().map(r => String(r[0]).replace(/\s+/g, ''));
     const i = names.indexOf(name.replace(/\s+/g, ''));

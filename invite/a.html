@@ -51,6 +51,10 @@ h1 small{display:block; font-size:15px; font-weight:400; color:var(--ink-2); mar
 .rv-hint{font-size:12.5px; color:var(--ink-2); margin:0}
 .rv-form input[name=name],.rv-form input[name=message],.rv-car{width:100%; min-height:46px; padding:0 12px; border:1px solid var(--line); border-radius:4px; background:var(--card); color:var(--ink); font:inherit; font-size:16px}
 .rv-seg,.rv-chips{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.rv-yes .rv-seg{grid-template-columns:repeat(3,1fr)}
+.rv-yes .rv-seg span{font-size:13.5px; text-align:center; padding:0 4px}
+.rv-ride{margin-top:0}
+.rv-people .rv-hint + .rv-sub,.rv-cars + .rv-sub{margin-top:16px}
 .rv-seg label,.rv-chips label{position:relative}
 .rv-seg input,.rv-chips input{position:absolute; opacity:0; pointer-events:none}
 .rv-seg span,.rv-chips span{display:flex; align-items:center; justify-content:center; min-height:46px; border:1px solid var(--line); border-radius:4px; background:var(--card); font-size:14px; cursor:pointer}

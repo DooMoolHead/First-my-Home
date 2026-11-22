@@ -23,9 +23,11 @@
       <div class="rv-field rv-yes"><span class="rv-label">${L.car}</span>
         <div class="rv-seg">
           <label><input type="radio" name="hasCar" value="0" checked><span>대중교통·택시</span></label>
-          <label><input type="radio" name="hasCar" value="1"><span>차 가져가요</span></label>
+          <label><input type="radio" name="hasCar" value="1"><span>자차 이동</span></label>
+          <label><input type="radio" name="hasCar" value="2"><span>친구 차로 같이</span></label>
         </div>
-        <input class="rv-car" name="car" maxlength="12" placeholder="차량번호 (예: 12가 3456)" hidden></div>
+        <input class="rv-car" name="car" maxlength="12" placeholder="차량번호 (예: 12가 3456)" hidden>
+        <input class="rv-car rv-ride" name="ride" maxlength="20" placeholder="누구 차 타고 와요? (선택)" hidden></div>
       <label class="rv-field"><span class="rv-label">${L.message}</span>
         <input name="message" maxlength="60" placeholder="선택 · 먹고 싶은 배달 메뉴도 환영"></label>
       <p class="rv-err" role="alert"></p>
@@ -57,6 +59,7 @@
       <p class="rv-sum">${t.n ? `${t.n}명 응답 · ${t.majority ? `<b>${R.fmt.md(t.majority)}</b>이 과반이에요` : '아직 과반인 날이 없어요'}` : '아직 아무도 안 냈어요. 1등 해주세요'}${open && C.voteDeadline ? ` · ${R.fmt.md(C.voteDeadline)} 마감` : ''}${R.preview ? '' : ` · <span class="rv-live">실시간</span>`}</p>`;
     const going = rows.filter(r => r.attend !== 'no');
     const cars = going.filter(r => r.car);
+    const riders = going.filter(r => r.transport === 'ride');
     const no = rows.filter(r => r.attend === 'no');
     return `${bars}
       <div class="rv-people">
@@ -65,6 +68,8 @@
         ${cars.length ? `<p class="rv-sub">방문차량 등록 <b>${cars.length}</b>대</p>
         <ul class="rv-cars">${cars.map(r => `<li><span>${esc(r.name)}</span><code>${esc(R.fmt.car(r.car))}</code></li>`).join('')}</ul>
         <p class="rv-hint">차량번호는 뒷자리만 보여요. 전체 번호는 저희만 봐요.</p>` : ''}
+        ${riders.length ? `<p class="rv-sub">친구 차로 같이 <b>${riders.length}</b>명</p>
+        <ul class="rv-cars">${riders.map(r => `<li><span>${esc(r.name)}</span><code>${r.ride ? esc(r.ride) + ' 차' : '차 미정'}</code></li>`).join('')}</ul>` : ''}
         ${no.length ? `<p class="rv-sub rv-no">아쉽지만 다음에: ${no.map(r => esc(r.name)).join(', ')}</p>` : ''}
       </div>`;
   }
@@ -79,6 +84,7 @@
         const yes = f.elements.attend.value === 'yes';
         f.querySelectorAll('.rv-yes, .rv-when').forEach(el => el.hidden = !yes);
         f.elements.car.hidden = f.elements.hasCar.value !== '1';
+        f.elements.ride.hidden = f.elements.hasCar.value !== '2';
       };
       f.addEventListener('change', sync);
       f.elements.name.addEventListener('change', () => {
@@ -86,7 +92,7 @@
         if (!mine) return;
         f.elements.attend.value = mine.attend;
         f.querySelectorAll('[name=dates]').forEach(c => c.checked = (mine.dates || []).includes(c.value));
-        f.elements.hasCar.value = mine.car ? '1' : '0'; f.elements.car.value = mine.car || ''; f.elements.message.value = mine.message || '';
+        f.elements.hasCar.value = mine.car ? '1' : mine.ride != null && mine.ride !== '' || mine.transport === 'ride' ? '2' : '0'; f.elements.car.value = mine.car || ''; f.elements.ride.value = mine.ride || ''; f.elements.message.value = mine.message || '';
         sync();
       });
       f.onsubmit = async e => {
@@ -100,7 +106,9 @@
         const btn = f.querySelector('.rv-submit'); btn.disabled = true; const label = btn.textContent; btn.textContent = '보내는 중…';
         try {
           rows = await R.submit({ name: f.elements.name.value, attend: f.elements.attend.value, dates: yes ? dates : [], count: yes ? 1 : 0,
-            car: yes && f.elements.hasCar.value === '1' ? f.elements.car.value.trim() : '', message: f.elements.message.value.trim() });
+            car: yes && f.elements.hasCar.value === '1' ? f.elements.car.value.trim() : '',
+            transport: yes ? ['transit', 'car', 'ride'][Number(f.elements.hasCar.value)] : '',
+            ride: yes && f.elements.hasCar.value === '2' ? f.elements.ride.value.trim() : '', message: f.elements.message.value.trim() });
           render(); btn.textContent = '받았어요! (고치려면 다시 보내기)';
           results.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } catch { err.textContent = '저장이 안 됐어요. 잠시 후 다시 눌러주세요'; btn.textContent = label; }
