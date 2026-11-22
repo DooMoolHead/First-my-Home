@@ -70,7 +70,7 @@
         </button>
         <div class="rv-person-d" ${on ? '' : 'hidden'}>
           <dl>
-            <dt>되는 날</dt><dd>${(r.dates || []).length ? r.dates.map(R.fmt.md).join(', ') : '—'}</dd>
+            <dt>되는 날</dt><dd>${(r.dates || []).length ? [...r.dates].sort().map(d => `(${R.fmt.md(d)})`).join(', ') : '—'}</dd>
             ${r.attend === 'no' ? '' : `<dt>이동</dt><dd>${transportLong(r)}</dd>`}
             <dt>한마디</dt><dd>${r.message ? esc(r.message) : '—'}</dd>
           </dl>
