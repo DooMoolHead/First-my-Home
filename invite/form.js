@@ -3,6 +3,7 @@
   const C = window.INVITE, R = window.RSVP, esc = R.esc;
   let rows = [];
   const openDates = new Set();
+  const openPeople = new Set();
 
   function formHTML(L) {
     const open = R.voteOpen();
@@ -59,20 +60,44 @@
       <p class="rv-sum">${t.n ? `${t.n}명 응답 · ${t.majority ? `<b>${R.fmt.md(t.majority)}</b>이 과반이에요` : '아직 과반인 날이 없어요'}` : '아직 아무도 안 냈어요. 1등 해주세요'}${open && C.voteDeadline ? ` · ${R.fmt.md(C.voteDeadline)} 마감` : ''}${R.preview ? '' : ` · <span class="rv-live">실시간</span>`}</p>`;
     const going = rows.filter(r => r.attend !== 'no');
     const cars = going.filter(r => r.car);
-    const riders = going.filter(r => r.transport === 'ride');
     const no = rows.filter(r => r.attend === 'no');
+    const host = R.hostKey();
+    const card = r => {
+      const k = esc(r.name), on = openPeople.has(r.name);
+      return `<li class="rv-person ${on ? 'is-open' : ''}">
+        <button type="button" class="rv-person-h" data-person="${k}" aria-expanded="${on}">
+          <b>${k}</b>${r.attend === 'no' ? '' : `<span class="rv-tr">${transportShort(r)}</span>`}${r.message ? `<em>${esc(r.message)}</em>` : ''}
+        </button>
+        <div class="rv-person-d" ${on ? '' : 'hidden'}>
+          <dl>
+            <dt>되는 날</dt><dd>${(r.dates || []).length ? r.dates.map(R.fmt.md).join(', ') : '—'}</dd>
+            ${r.attend === 'no' ? '' : `<dt>이동</dt><dd>${transportLong(r)}</dd>`}
+            <dt>코멘트</dt><dd>${r.message ? esc(r.message) : '—'}</dd>
+          </dl>
+          ${host ? `<div class="rv-admin"><button type="button" class="rv-edit" data-person="${k}">수정</button><button type="button" class="rv-del" data-person="${k}">삭제</button></div>` : ''}
+        </div>
+      </li>`;
+    };
     return `${bars}
       <div class="rv-people">
-        <p class="rv-sub">${L.going} <b>${t.people}</b>명</p>
-        <ul class="rv-names">${going.map(r => `<li>${esc(r.name)}${r.message ? `<em>${esc(r.message)}</em>` : ''}</li>`).join('') || '<li class="rv-empty">아직 없어요</li>'}</ul>
+        <p class="rv-sub">${L.going} <b>${t.people}</b>명 <span class="rv-sub-hint">이름을 누르면 자세히 보여요</span></p>
+        <ul class="rv-list">${going.map(card).join('') || '<li class="rv-empty">아직 없어요</li>'}</ul>
         ${cars.length ? `<p class="rv-sub">방문차량 등록 <b>${cars.length}</b>대</p>
-        <ul class="rv-cars">${cars.map(r => `<li><span>${esc(r.name)}</span><code>${esc(R.fmt.car(r.car))}</code></li>`).join('')}</ul>
-        <p class="rv-hint">차량번호는 뒷자리만 보여요. 전체 번호는 저희만 봐요.</p>` : ''}
-        ${riders.length ? `<p class="rv-sub">친구 차로 같이 <b>${riders.length}</b>명</p>
-        <ul class="rv-cars">${riders.map(r => `<li><span>${esc(r.name)}</span><code>${r.ride ? esc(r.ride) + ' 차' : '차 미정'}</code></li>`).join('')}</ul>` : ''}
-        ${no.length ? `<p class="rv-sub rv-no">아쉽지만 다음에: ${no.map(r => esc(r.name)).join(', ')}</p>` : ''}
+        <ul class="rv-cars">${cars.map(r => `<li><span>${esc(r.name)}</span><code>${esc(r.car)}</code></li>`).join('')}</ul>` : ''}
+        ${no.length ? `<p class="rv-sub">아쉽지만 다음에 <b>${no.length}</b>명</p><ul class="rv-list">${no.map(card).join('')}</ul>` : ''}
+        <p class="rv-host">${host ? `호스트 모드 켜짐 · <button type="button" class="rv-host-off">끄기</button>` : `<button type="button" class="rv-host-on">호스트</button>`}</p>
+        <form class="rv-host-form" hidden><input name="key" type="password" autocomplete="off" placeholder="호스트 비밀번호" aria-label="호스트 비밀번호"><button type="submit">확인</button></form>
       </div>`;
   }
+
+  const trKind = r => r.transport || (r.car ? 'car' : 'transit');
+  const transportShort = r => ({ transit: '대중교통', car: '자차', ride: '친구 차' })[trKind(r)];
+  const transportLong = r => {
+    const k = trKind(r);
+    if (k === 'car') return `자차 · ${esc(r.car || '번호 미입력')}`;
+    if (k === 'ride') return `친구 차로 같이${r.ride ? ` (${esc(r.ride)} 차)` : ''}`;
+    return '대중교통·택시';
+  };
 
   window.RSVPUI = {
     async mount({ form, results, labels = {}, onChange }) {
@@ -87,13 +112,18 @@
         f.elements.ride.hidden = f.elements.hasCar.value !== '2';
       };
       f.addEventListener('change', sync);
-      f.elements.name.addEventListener('change', () => {
-        const mine = rows.find(r => r.name.replace(/\s+/g, '') === f.elements.name.value.replace(/\s+/g, ''));
-        if (!mine) return;
+      const fill = mine => {
+        f.elements.name.value = mine.name;
         f.elements.attend.value = mine.attend;
         f.querySelectorAll('[name=dates]').forEach(c => c.checked = (mine.dates || []).includes(c.value));
-        f.elements.hasCar.value = mine.car ? '1' : mine.ride != null && mine.ride !== '' || mine.transport === 'ride' ? '2' : '0'; f.elements.car.value = mine.car || ''; f.elements.ride.value = mine.ride || ''; f.elements.message.value = mine.message || '';
+        const k = trKind(mine);
+        f.elements.hasCar.value = k === 'car' ? '1' : k === 'ride' ? '2' : '0';
+        f.elements.car.value = mine.car || ''; f.elements.ride.value = mine.ride || ''; f.elements.message.value = mine.message || '';
         sync();
+      };
+      f.elements.name.addEventListener('change', () => {
+        const mine = rows.find(r => r.name.replace(/\s+/g, '') === f.elements.name.value.replace(/\s+/g, ''));
+        if (mine) fill(mine);
       });
       f.onsubmit = async e => {
         e.preventDefault();
@@ -116,11 +146,35 @@
       };
       sync();
       results.innerHTML = '<p class="rv-hint">불러오는 중…</p>';
-      results.addEventListener('click', e => {
+      results.addEventListener('click', async e => {
+        const p = e.target.closest('.rv-person-h');
+        if (p) {
+          const n = p.dataset.person; openPeople.has(n) ? openPeople.delete(n) : openPeople.add(n);
+          const li = p.parentElement, on = openPeople.has(n);
+          li.classList.toggle('is-open', on); p.setAttribute('aria-expanded', on); li.querySelector('.rv-person-d').hidden = !on;
+          return;
+        }
+        const ed = e.target.closest('.rv-edit');
+        if (ed) { const r = rows.find(x => x.name === ed.dataset.person); if (r) { fill(r); f.scrollIntoView({ behavior: 'smooth', block: 'start' }); f.querySelector('.rv-submit').textContent = `${r.name} 응답 수정하기`; } return; }
+        const del = e.target.closest('.rv-del');
+        if (del) {
+          if (!del.classList.contains('is-armed')) { del.classList.add('is-armed'); del.textContent = '한 번 더 누르면 삭제'; return; }
+          del.disabled = true; del.textContent = '삭제 중…';
+          try { rows = await R.remove(del.dataset.person); openPeople.delete(del.dataset.person); render(); }
+          catch (er) { del.disabled = false; del.classList.remove('is-armed'); del.textContent = er.message === 'key' ? '비밀번호가 틀려요' : '삭제 실패, 다시 눌러주세요'; }
+          return;
+        }
+        if (e.target.closest('.rv-host-on')) { const hf = results.querySelector('.rv-host-form'); hf.hidden = false; hf.elements.key.focus(); return; }
+        if (e.target.closest('.rv-host-off')) { R.setHostKey(''); render(); return; }
         const b = e.target.closest('.rv-bar[data-date]'); if (!b) return;
         const d = b.dataset.date; openDates.has(d) ? openDates.delete(d) : openDates.add(d);
         const row = b.parentElement, on = openDates.has(d);
         row.classList.toggle('is-open', on); b.setAttribute('aria-expanded', on); row.querySelector('.rv-voters').hidden = !on;
+      });
+      results.addEventListener('submit', e => {
+        if (!e.target.matches('.rv-host-form')) return;
+        e.preventDefault(); const k = e.target.elements.key.value.trim(); if (!k) return;
+        R.setHostKey(k); render();
       });
       try { rows = await R.list(); } catch { rows = []; }
       render();

@@ -2,6 +2,8 @@
  * 밍짜네 집들이 — 참석/날짜투표 저장용 Google Apps Script
  * 사용법은 invite/README.md 참고. 시트 1행에 머리글이 자동으로 만들어집니다.
  */
+/** 호스트 비밀번호: 초대장에서 '호스트'를 누르고 이 값을 넣으면 응답을 삭제할 수 있어요. 꼭 바꾸세요. */
+const ADMIN_KEY = '여기에-비밀번호';
 const HEAD = ['ts', 'name', 'attend', 'dates', 'count', 'car', 'message', 'transport', 'ride'];
 
 function sheet_() {
@@ -28,6 +30,14 @@ function doPost(e) {
   lock.waitLock(10000);
   try {
     const body = JSON.parse(e.postData.contents);
+    if (body.action === 'delete') {
+      if (String(body.key || '') !== ADMIN_KEY) return out_({ ok: false, error: 'key' });
+      const sh0 = sheet_(), target = String(body.name || '').replace(/\s+/g, '');
+      const ns = sh0.getRange(1, 2, sh0.getLastRow(), 1).getValues().map(r => String(r[0]).replace(/\s+/g, ''));
+      const k = ns.indexOf(target);
+      if (k > 0) sh0.deleteRow(k + 1);
+      return out_({ ok: true, rows: rows_() });
+    }
     const x = body.entry || {};
     const name = String(x.name || '').trim().slice(0, 30);
     if (!name) return out_({ ok: false, error: 'name' });
