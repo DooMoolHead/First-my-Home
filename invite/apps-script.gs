@@ -23,20 +23,30 @@ function rows_() {
 function out_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
 }
-function doGet() { return out_({ ok: true, rows: rows_() }); }
+function settings_() {
+  try { return JSON.parse(PropertiesService.getScriptProperties().getProperty('settings') || '{}'); } catch (e) { return {}; }
+}
+function doGet() { return out_({ ok: true, rows: rows_(), settings: settings_() }); }
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     const body = JSON.parse(e.postData.contents);
+    if (body.action === 'settings') {
+      if (String(body.key || '') !== ADMIN_KEY) return out_({ ok: false, error: 'key' });
+      const s = body.settings || {};
+      const dates = (s.dates || []).map(String).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d)).slice(0, 20);
+      PropertiesService.getScriptProperties().setProperty('settings', JSON.stringify({ dates: dates }));
+      return out_({ ok: true, rows: rows_(), settings: settings_() });
+    }
     if (body.action === 'delete') {
       if (String(body.key || '') !== ADMIN_KEY) return out_({ ok: false, error: 'key' });
       const sh0 = sheet_(), target = String(body.name || '').replace(/\s+/g, '');
       const ns = sh0.getRange(1, 2, sh0.getLastRow(), 1).getValues().map(r => String(r[0]).replace(/\s+/g, ''));
       const k = ns.indexOf(target);
       if (k > 0) sh0.deleteRow(k + 1);
-      return out_({ ok: true, rows: rows_() });
+      return out_({ ok: true, rows: rows_(), settings: settings_() });
     }
     const x = body.entry || {};
     const name = String(x.name || '').trim().slice(0, 30);
@@ -49,6 +59,6 @@ function doPost(e) {
     const names = sh.getRange(1, 2, sh.getLastRow(), 1).getValues().map(r => String(r[0]).replace(/\s+/g, ''));
     const i = names.indexOf(name.replace(/\s+/g, ''));
     if (i > 0) sh.getRange(i + 1, 1, 1, row.length).setValues([row]); else sh.appendRow(row);
-    return out_({ ok: true, rows: rows_() });
+    return out_({ ok: true, rows: rows_(), settings: settings_() });
   } finally { lock.releaseLock(); }
 }
