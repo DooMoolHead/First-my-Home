@@ -72,7 +72,7 @@
           <dl>
             <dt>되는 날</dt><dd>${(r.dates || []).length ? r.dates.map(R.fmt.md).join(', ') : '—'}</dd>
             ${r.attend === 'no' ? '' : `<dt>이동</dt><dd>${transportLong(r)}</dd>`}
-            <dt>코멘트</dt><dd>${r.message ? esc(r.message) : '—'}</dd>
+            <dt>한마디</dt><dd>${r.message ? esc(r.message) : '—'}</dd>
           </dl>
           ${host ? `<div class="rv-admin"><button type="button" class="rv-edit" data-person="${k}">수정</button><button type="button" class="rv-del" data-person="${k}">삭제</button></div>` : ''}
         </div>
