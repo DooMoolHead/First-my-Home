@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>밍짜네 집들이 초대장</title>
+<meta property="og:title" content="밍짜네 집들이 초대장">
+<meta property="og:description" content="빈손으로 오세요. 3월 6일 토요일 저녁, 동탄 새집에서.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap">
+<style>
+:root{
+  --paper:#f7f1e6; --paper-2:#efe6d5; --ink:#2b2621; --ink-2:#7a6e60; --line:#d9ccb6;
+  --no:#c8442b; --leaf:#4f6b4a;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper-2); color:var(--ink);
+  font-family:'Gowun Dodum',system-ui,'Apple SD Gothic Neo',sans-serif; font-size:15px; line-height:1.7;
+  word-break:keep-all; -webkit-text-size-adjust:100%;
+}
+.sheet{
+  max-width:440px; margin:0 auto; min-height:100vh; background:var(--paper);
+  padding:56px 24px 40px;
+  background-image:repeating-linear-gradient(0deg,transparent 0 31px,rgba(120,100,70,.06) 31px 32px);
+}
+.kicker{font-family:'Gowun Batang',serif; letter-spacing:.32em; font-size:11px; color:var(--ink-2); text-align:center; margin:0 0 18px}
+h1{font-family:'Gowun Batang',serif; font-weight:700; font-size:30px; line-height:1.3; text-align:center; margin:0}
+h1 small{display:block; font-size:15px; font-weight:400; color:var(--ink-2); margin-top:8px; letter-spacing:.02em}
+.rule{display:flex; align-items:center; gap:10px; margin:34px 0 28px; color:var(--ink-2); font-size:12px}
+.rule::before,.rule::after{content:""; flex:1; height:1px; background:var(--line)}
+
+.nos{list-style:none; margin:0; padding:0; display:grid; gap:22px}
+.nos li{display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:baseline}
+.nos .no{font-family:'Gowun Batang',serif; font-weight:700; color:var(--no); font-size:34px; line-height:1; letter-spacing:-.02em}
+.nos b{font-family:'Gowun Batang',serif; font-size:21px; line-height:1.3}
+.nos li > span:not(.no){grid-column:2; font-size:13px; color:var(--ink-2); margin-top:2px}
+
+.letter{font-family:'Nanum Pen Script',cursive; font-size:23px; line-height:1.55; margin:0; color:#3a3129}
+.letter .sign{display:block; text-align:right; margin-top:8px}
+
+h2{font-family:'Gowun Batang',serif; font-size:13px; letter-spacing:.24em; color:var(--ink-2); font-weight:400; margin:0 0 14px}
+.when{text-align:center}
+.when .date{font-family:'Gowun Batang',serif; font-size:26px; font-weight:700; margin:0}
+.when .time{margin:2px 0 0; color:var(--ink-2)}
+.cal{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin:22px auto 0; max-width:300px; font-size:13px; text-align:center}
+.cal .h{color:var(--ink-2); font-size:11px; padding-bottom:6px}
+.cal .h:first-child,.cal .sun{color:var(--no)}
+.cal div{padding:6px 0}
+.cal .on{position:relative; color:#fff; font-weight:700}
+.cal .on::before{content:""; position:absolute; left:50%; top:50%; width:28px; height:28px; transform:translate(-50%,-50%); border-radius:50%; background:var(--no); z-index:-1}
+.cal .on{z-index:0}
+.dday{text-align:center; font-size:13px; color:var(--ink-2); margin-top:12px}
+.dday b{color:var(--no); font-weight:400}
+
+.where p{margin:0}
+.where .addr{font-family:'Gowun Batang',serif; font-size:18px; font-weight:700}
+.where .note{font-size:13.5px; color:var(--ink-2); margin-top:8px}
+.btns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:16px}
+.btn{
+  display:flex; align-items:center; justify-content:center; min-height:44px; padding:0 8px;
+  border:1px solid var(--line); border-radius:4px; background:#fffaf1; color:var(--ink);
+  font:inherit; font-size:13.5px; text-decoration:none; cursor:pointer
+}
+.btn:active{background:var(--paper-2)}
+
+.facts{margin:0; display:grid; grid-template-columns:72px 1fr; row-gap:10px; font-size:14.5px}
+.facts dt{color:var(--ink-2)}
+.facts dd{margin:0}
+
+.rsvp{text-align:center; margin-top:40px}
+.rsvp p{margin:0 0 14px; font-size:14px; color:var(--ink-2)}
+.cta{
+  display:block; width:100%; min-height:54px; border:0; border-radius:4px; background:var(--ink); color:var(--paper);
+  font-family:'Gowun Batang',serif; font-size:17px; font-weight:700; text-decoration:none; line-height:54px
+}
+footer{margin-top:48px; text-align:center; font-size:12px; color:var(--ink-2)}
+.toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:20px; font-size:13px; transition:.25s; pointer-events:none}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <p class="kicker">HOUSEWARMING · 2027</p>
+  <h1>밍짜네 집들이 초대장<small>우리, 이사했어요</small></h1>
+
+  <div class="rule">세 가지 약속</div>
+  <ul class="nos">
+    <li><span class="no">No!</span><b>집들이 선물</b><span>두 손은 가볍게, 추억은 무겁게</span></li>
+    <li><span class="no">No!</span><b>수 아들</b><span>마음도 편하게</span></li>
+    <li><span class="no">No!</span><b>칼부림</b><span>이번 집에 러그는 없어요</span></li>
+  </ul>
+
+  <div class="rule">✎</div>
+  <p class="letter">
+    드디어 우리 집이 생겼어요.<br>
+    아직 짐 정리는 덜 됐지만,<br>
+    제일 먼저 보여주고 싶은 사람들을 불러요.<br>
+    맛있는 거 해놓고 기다릴게요.
+    <span class="sign">— 밍 &amp; 짜</span>
+  </p>
+
+  <div class="rule">언제</div>
+  <section class="when">
+    <p class="date" id="dateText"></p>
+    <p class="time" id="timeText"></p>
+    <div class="cal" id="cal"></div>
+    <p class="dday" id="dday"></p>
+  </section>
+
+  <div class="rule">어디서</div>
+  <section class="where">
+    <p class="addr" id="addr"></p>
+    <p class="note" id="addrNote"></p>
+    <div class="btns">
+      <a class="btn" id="kakaoMap" target="_blank" rel="noopener">카카오맵</a>
+      <a class="btn" id="naverMap" target="_blank" rel="noopener">네이버지도</a>
+      <button class="btn" type="button" id="copyAddr">주소 복사</button>
+    </div>
+  </section>
+
+  <div class="rule">알아두면 좋아요</div>
+  <dl class="facts" id="facts"></dl>
+
+  <section class="rsvp">
+    <p>오는지 미리 알려주면 그만큼 고기를 더 사둘게요</p>
+    <a class="cta" id="rsvp">참석한다고 말하기</a>
+  </section>
+
+  <footer>밍짜네 · 동탄</footer>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── 여기만 고치면 됩니다 ─────────────────────────── */
+const INVITE = {
+  date: '2027-03-06', start: '18:00', end: '22:00',
+  address: '동탄 ○○아파트 ○○○동 ○○○○호',
+  mapQuery: '동탄 ○○아파트',
+  addrNote: '정문으로 들어와서 ○○○동 공동현관 → 호출 ○○○○',
+  facts: [
+    ['주차', '방문 차량 등록이 필요해요. 차량 번호 미리 알려주세요.'],
+    ['메뉴', '아직 고민 중 (먹고 싶은 거 말해주면 반영)'],
+    ['드레스코드', '편한 옷. 바닥에 앉아도 되는 옷.'],
+  ],
+  phone: '010-0000-0000',
+  rsvpText: '밍짜네 집들이 갈게요! 이름: / 인원: / 차량번호(있으면): ',
+};
+/* ──────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const d = new Date(INVITE.date + 'T00:00:00');
+const W = ['일','월','화','수','목','금','토'];
+const ampm = t => { const [h,m] = t.split(':').map(Number); return (h<12?'오전 ':'오후 ') + ((h%12)||12) + '시' + (m?` ${m}분`:''); };
+$('dateText').textContent = `${d.getMonth()+1}월 ${d.getDate()}일 ${W[d.getDay()]}요일`;
+$('timeText').textContent = `${ampm(INVITE.start)} ~ ${ampm(INVITE.end)}`;
+(function cal(){
+  const c = $('cal'); W.forEach(w => c.insertAdjacentHTML('beforeend', `<div class="h">${w}</div>`));
+  const first = new Date(d.getFullYear(), d.getMonth(), 1).getDay();
+  const last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  for (let i=0;i<first;i++) c.insertAdjacentHTML('beforeend','<div></div>');
+  for (let n=1;n<=last;n++){
+    const dow = (first+n-1)%7;
+    c.insertAdjacentHTML('beforeend', `<div class="${n===d.getDate()?'on':''} ${dow===0?'sun':''}">${n}</div>`);
+  }
+})();
+const today = new Date(); today.setHours(0,0,0,0);
+const diff = Math.round((d - today)/864e5);
+$('dday').innerHTML = diff>0 ? `집들이까지 <b>${diff}일</b> 남았어요` : diff===0 ? '<b>오늘이에요!</b>' : '와줘서 고마웠어요';
+$('addr').textContent = INVITE.address;
+$('addrNote').textContent = INVITE.addrNote;
+$('kakaoMap').href = 'https://map.kakao.com/link/search/' + encodeURIComponent(INVITE.mapQuery);
+$('naverMap').href = 'https://map.naver.com/p/search/' + encodeURIComponent(INVITE.mapQuery);
+$('facts').innerHTML = INVITE.facts.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+$('rsvp').href = `sms:${INVITE.phone}${/iPhone|iPad/.test(navigator.userAgent)?'&':'?'}body=${encodeURIComponent(INVITE.rsvpText)}`;
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1600); }
+$('copyAddr').onclick = async () => {
+  try { await navigator.clipboard.writeText(INVITE.address); }
+  catch { const ta=document.createElement('textarea'); ta.value=INVITE.address; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  toast('주소를 복사했어요');
+};
+</script>
+</body>
+</html>

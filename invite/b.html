@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>밍짜네 집들이 초대장</title>
+<meta property="og:title" content="밍짜네 집들이 초대장">
+<meta property="og:description" content="결제하실 금액: 0원. 몸만 오세요.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#3a3f3b; --paper:#fbfaf6; --ink:#1d1d1b; --ink-2:#76736b; --dash:#bdb8ac; --no:#e2462e}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font-family:'IBM Plex Sans KR',system-ui,'Apple SD Gothic Neo',sans-serif; font-size:14px; line-height:1.55; word-break:keep-all; padding:28px 16px 48px}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.receipt{
+  max-width:400px; margin:0 auto; background:var(--paper); position:relative;
+  padding:30px 22px 34px; box-shadow:0 18px 40px rgba(0,0,0,.35);
+  transform:rotate(-.6deg);
+}
+.receipt::before,.receipt::after{
+  content:""; position:absolute; left:0; right:0; height:10px;
+  background:linear-gradient(-45deg,transparent 7px,var(--paper) 0) 0 0/14px 10px, linear-gradient(45deg,transparent 7px,var(--paper) 0) 0 0/14px 10px;
+}
+.receipt::before{top:-10px; transform:scaleY(-1)}
+.receipt::after{bottom:-10px}
+.c{text-align:center}
+.store{font-size:12px; letter-spacing:.2em; color:var(--ink-2); margin:0}
+h1{font-size:24px; font-weight:700; margin:6px 0 4px; letter-spacing:-.02em}
+.meta{font-size:11.5px; color:var(--ink-2); margin:0}
+hr{border:0; border-top:1.5px dashed var(--dash); margin:20px 0}
+hr.dbl{border-top:3px double var(--ink); margin:18px 0}
+.cols{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-2); margin-bottom:12px}
+
+.item{display:grid; grid-template-columns:auto 1fr auto; column-gap:10px; align-items:baseline; padding:10px 0}
+.item + .item{border-top:1px dotted var(--dash)}
+.item .no{color:var(--no); font-weight:700; font-size:30px; line-height:1; letter-spacing:-.03em}
+.item b{font-size:19px; font-weight:700}
+.item .p{font-family:'IBM Plex Mono',monospace; font-size:14px}
+.item small{grid-column:2 / 4; color:var(--ink-2); font-size:12.5px; margin-top:3px}
+
+.total{display:flex; justify-content:space-between; align-items:baseline}
+.total span{font-weight:600}
+.total b{font-family:'IBM Plex Mono',monospace; font-size:26px}
+.sub{display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-2); margin-top:4px}
+
+.rows{display:grid; grid-template-columns:76px 1fr; row-gap:8px; margin:0; font-size:13.5px}
+.rows dt{color:var(--ink-2)}
+.rows dd{margin:0; font-weight:600}
+.rows dd em{font-style:normal; font-weight:400; color:var(--ink-2); display:block; font-size:12.5px}
+.links{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px}
+.links a,.links button{flex:1 1 30%; min-height:40px; border:1px solid var(--ink); background:none; color:var(--ink); font:inherit; font-size:12.5px; text-decoration:none; display:flex; align-items:center; justify-content:center; cursor:pointer}
+.links a:active,.links button:active{background:var(--ink); color:var(--paper)}
+
+.memo{font-size:13px; margin:0; white-space:pre-line}
+.stamp{
+  position:absolute; right:18px; top:118px; transform:rotate(-14deg);
+  border:2.5px solid var(--no); color:var(--no); border-radius:6px; padding:4px 10px;
+  font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:13px; letter-spacing:.08em; opacity:.85
+}
+.barcode{height:52px; margin:22px 12px 6px; background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px,var(--ink) 12px 13px,transparent 13px 16px)}
+.bnum{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.3em; color:var(--ink-2)}
+.cta{display:block; margin:24px 0 0; min-height:52px; line-height:52px; text-align:center; background:var(--ink); color:var(--paper); text-decoration:none; font-weight:700; font-size:15.5px}
+.thanks{font-size:12px; color:var(--ink-2); margin:16px 0 0}
+.toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--paper); color:var(--ink); padding:10px 16px; font-size:13px; transition:.25s; pointer-events:none}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<main class="receipt">
+  <div class="c">
+    <p class="store mono">MINGJJA HOUSE</p>
+    <h1>밍짜네 집들이 초대장</h1>
+    <p class="meta mono" id="meta"></p>
+  </div>
+  <div class="stamp">PAID ₩0</div>
+
+  <hr>
+  <div class="cols mono"><span>품목</span><span>금액</span></div>
+  <div class="item"><span class="no">No!</span><b>집들이 선물</b><span class="p">0</span><small>두 손은 가볍게, 추억은 무겁게</small></div>
+  <div class="item"><span class="no">No!</span><b>수 아들</b><span class="p">0</span><small>마음도 편하게</small></div>
+  <div class="item"><span class="no">No!</span><b>칼부림</b><span class="p">0</span><small>이번 집에 러그는 없어요</small></div>
+  <hr class="dbl">
+  <div class="total"><span>받을 금액</span><b>₩0</b></div>
+  <div class="sub"><span>지참물</span><span>빈손 1, 배고픔 1</span></div>
+  <div class="sub"><span>제공</span><span>밥, 술, 새 집 구경</span></div>
+
+  <hr>
+  <dl class="rows">
+    <dt>일시</dt><dd id="when"></dd>
+    <dt>장소</dt><dd id="addr"></dd>
+    <dt>주차</dt><dd id="park"></dd>
+    <dt>호스트</dt><dd>밍 &amp; 짜</dd>
+  </dl>
+  <div class="links">
+    <a id="kakaoMap" target="_blank" rel="noopener">카카오맵</a>
+    <a id="naverMap" target="_blank" rel="noopener">네이버지도</a>
+    <button type="button" id="copyAddr">주소 복사</button>
+  </div>
+
+  <hr>
+  <p class="memo" id="memo"></p>
+
+  <a class="cta" id="rsvp">참석 확정하기</a>
+
+  <div class="barcode" aria-hidden="true"></div>
+  <p class="c bnum" id="bnum"></p>
+  <p class="c thanks">교환·환불 불가 · 와주면 그걸로 충분해요</p>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── 여기만 고치면 됩니다 ─────────────────────────── */
+const INVITE = {
+  date: '2027-03-06', start: '18:00', end: '22:00',
+  address: '동탄 ○○아파트 ○○○동 ○○○○호',
+  mapQuery: '동탄 ○○아파트',
+  parking: '방문 차량 등록 필요 (차량번호 미리 알려주세요)',
+  memo: '* 저녁은 저희가 준비해요\n* 늦게 와도 괜찮아요, 연락만 주세요\n* 술은 넉넉해요',
+  phone: '010-0000-0000',
+  rsvpText: '밍짜네 집들이 참석 확정! 이름: / 인원: / 차량번호(있으면): ',
+};
+/* ──────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const d = new Date(INVITE.date + 'T00:00:00');
+const W = ['일','월','화','수','목','금','토'];
+const p2 = n => String(n).padStart(2,'0');
+const ampm = t => { const [h,m] = t.split(':').map(Number); return (h<12?'오전 ':'오후 ') + ((h%12)||12) + '시' + (m?` ${m}분`:''); };
+$('meta').textContent = `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())} ${INVITE.start}  ·  No.${p2(d.getMonth()+1)}${p2(d.getDate())}`;
+$('when').innerHTML = `${d.getMonth()+1}월 ${d.getDate()}일 (${W[d.getDay()]})<em>${ampm(INVITE.start)} ~ ${ampm(INVITE.end)}</em>`;
+$('addr').textContent = INVITE.address;
+$('park').textContent = INVITE.parking;
+$('memo').textContent = INVITE.memo;
+$('bnum').textContent = `${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}0000`;
+$('kakaoMap').href = 'https://map.kakao.com/link/search/' + encodeURIComponent(INVITE.mapQuery);
+$('naverMap').href = 'https://map.naver.com/p/search/' + encodeURIComponent(INVITE.mapQuery);
+$('rsvp').href = `sms:${INVITE.phone}${/iPhone|iPad/.test(navigator.userAgent)?'&':'?'}body=${encodeURIComponent(INVITE.rsvpText)}`;
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1600); }
+$('copyAddr').onclick = async () => {
+  try { await navigator.clipboard.writeText(INVITE.address); }
+  catch { const ta=document.createElement('textarea'); ta.value=INVITE.address; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  toast('주소를 복사했어요');
+};
+</script>
+</body>
+</html>
