@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>밍짜네 집들이 초대장</title>
+<meta property="og:title" content="밍짜네 집들이 초대장 🔒">
+<meta property="og:description" content="비밀번호는 우리 집 호수. 문 열고 들어와요.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;700&family=Black+Han+Sans&display=swap">
+<style>
+:root{--bp:#183766; --bp-2:#1f4479; --grid:rgba(255,255,255,.07); --grid-2:rgba(255,255,255,.13); --w:#eef3fb; --w-2:#a9bcda; --line:rgba(238,243,251,.55); --no:#ff6a4d; --hl:#ffd75e}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bp); color:var(--w); font-family:'IBM Plex Sans KR',system-ui,'Apple SD Gothic Neo',sans-serif; font-size:14.5px; line-height:1.65; word-break:keep-all; -webkit-text-size-adjust:100%}
+body.locked{overflow:hidden}
+[hidden]{display:none!important}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+
+/* ── 도어락 ── */
+.lock{position:fixed; inset:0; z-index:20; background:#111316; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 16px; transition:transform .7s cubic-bezier(.7,0,.3,1)}
+.lock.open{transform:translateX(-102%)}
+.door-no{font-family:'IBM Plex Mono',monospace; color:#d7c9a6; font-size:13px; letter-spacing:.2em; border:1px solid #5b5340; padding:4px 12px; margin:0 0 26px}
+.pad{width:236px; background:linear-gradient(#24272c,#191b1f); border-radius:22px; padding:22px 20px 18px; box-shadow:0 0 0 1px #33373e,0 24px 40px rgba(0,0,0,.6)}
+.screen{height:34px; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:14px}
+.screen i{width:10px; height:10px; border-radius:50%; border:1.5px solid #3e8cff; transition:.15s}
+.screen i.on{background:#3e8cff; box-shadow:0 0 8px #3e8cff}
+.pad.err .screen i{border-color:#ff4d4d; background:#ff4d4d}
+.pad.err{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.keys{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.keys button{height:52px; border:0; border-radius:50%; background:transparent; color:#cfe3ff; font-family:'IBM Plex Mono',monospace; font-size:22px; text-shadow:0 0 8px rgba(62,140,255,.7); cursor:pointer; -webkit-tap-highlight-color:transparent}
+.keys button:active{background:rgba(62,140,255,.15)}
+.lock-hint{color:#8d96a3; font-size:13px; margin:22px 0 0; text-align:center}
+.lock-hint b{color:#d7c9a6; font-weight:500}
+.skip{margin-top:14px; background:none; border:0; color:#5f6772; font:inherit; font-size:12px; text-decoration:underline; cursor:pointer}
+
+/* ── 설계도 ── */
+.sheet{max-width:440px; margin:0 auto; min-height:100vh; padding:20px 16px 40px; position:relative;
+  background:linear-gradient(var(--grid-2) 1px,transparent 1px) 0 0/80px 80px, linear-gradient(90deg,var(--grid-2) 1px,transparent 1px) 0 0/80px 80px,
+             linear-gradient(var(--grid) 1px,transparent 1px) 0 0/16px 16px, linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/16px 16px, var(--bp)}
+.tb{border:1.5px solid var(--w); display:grid; grid-template-columns:1fr auto; font-size:11px}
+.tb > *{padding:6px 10px}
+.tb .t{grid-column:1/-1; border-bottom:1.5px solid var(--w); padding:12px 10px 10px}
+.tb .t small{display:block; font-family:'IBM Plex Mono',monospace; letter-spacing:.2em; color:var(--w-2); font-size:10.5px}
+h1{font-family:'Black Han Sans',sans-serif; font-weight:400; font-size:31px; line-height:1.15; margin:4px 0 0; letter-spacing:.01em}
+.tb span{border-right:1px solid var(--line); color:var(--w-2)} .tb span + span{border-right:0}
+
+.plan{margin:20px 0 0; position:relative}
+.plan svg{display:block; width:100%; height:auto}
+.plan text{font-family:'IBM Plex Sans KR',sans-serif; fill:var(--w); font-size:11px}
+.plan .dim{font-family:'IBM Plex Mono',monospace; fill:var(--w-2); font-size:9px}
+.plan a text{fill:var(--hl); font-weight:700}
+.plan .room{fill:rgba(255,255,255,.02); stroke:var(--w); stroke-width:2.5}
+.plan a .room{fill:rgba(255,215,94,.07)}
+.plan .thin{stroke:var(--w); stroke-width:1; fill:none}
+.legend{font-size:11.5px; color:var(--w-2); margin:6px 0 0; text-align:center}
+
+.photo{margin-top:22px; border:1.5px solid var(--w); padding:6px; position:relative}
+.photo div{aspect-ratio:4/3; background:var(--bp-2) center/cover; display:flex; align-items:center; justify-content:center; color:var(--w-2); font-size:12.5px}
+.gallery{display:grid!important; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px; aspect-ratio:auto!important; background:none!important}
+.gallery[hidden]{display:none!important}
+.gallery img{width:100%; aspect-ratio:1; object-fit:cover; display:block}
+
+.sec{margin-top:34px; scroll-margin-top:16px}
+.sec-h{display:flex; align-items:baseline; gap:10px; border-bottom:1.5px solid var(--w); padding-bottom:6px; margin-bottom:14px}
+.sec-h .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--bp); background:var(--w); padding:1px 6px; font-weight:600}
+.sec-h h2{font-size:17px; margin:0; font-weight:700}
+.sec-h .dim{margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--w-2)}
+.sec p{margin:0}
+.muted{color:var(--w-2); font-size:13px}
+
+.nos{list-style:none; margin:0; padding:0}
+.nos li{display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:baseline; padding:12px 0; border-bottom:1px dashed var(--line)}
+.nos .no{font-family:'Black Han Sans',sans-serif; color:var(--no); font-size:38px; line-height:.95}
+.nos b{font-family:'Black Han Sans',sans-serif; font-weight:400; font-size:25px; line-height:1.15}
+.nos .su{grid-column:1/-1; margin:12px 0 2px; border:1.5px solid var(--w); padding:6px}
+.nos .su img{display:block; width:100%; aspect-ratio:1; object-fit:cover; object-position:64% 62%}
+.nos .mem div{display:flex; gap:3px; align-items:flex-start}
+.nos .mem img{flex:var(--r) 1 0; min-width:0; width:0; height:auto; aspect-ratio:var(--r); object-fit:cover}
+.nos .su figcaption{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--w-2); padding-top:5px; letter-spacing:.04em}
+.nos li > span:not(.no){grid-column:2; color:var(--w-2); font-size:13px}
+
+.callout{border:1.5px dashed var(--hl); color:var(--hl); padding:10px 12px; font-size:13.5px; margin-top:12px!important}
+.btns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:12px}
+.btn{display:flex; align-items:center; justify-content:center; min-height:44px; border:1.5px solid var(--w); background:transparent; color:var(--w); font:inherit; font-size:13px; font-weight:500; text-decoration:none; cursor:pointer}
+.btn:active{background:rgba(255,255,255,.1)}
+.addr{font-size:16px; font-weight:700}
+
+/* 폼 */
+.rv-form{display:grid; gap:16px}
+.rv-field{display:grid; gap:6px; margin:0}
+.rv-label{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--w-2); letter-spacing:.08em}
+.rv-hint{font-size:12.5px; color:var(--w-2); margin:0}
+.rv-hint b{color:var(--hl)}
+.rv-form input[name=name],.rv-form input[name=message],.rv-car{width:100%; min-height:46px; padding:0 12px; border:1.5px solid var(--line); background:rgba(0,0,0,.12); color:var(--w); font:inherit; font-size:16px; border-radius:0}
+.rv-form input::placeholder{color:#7f95ba}
+.rv-car{font-family:'IBM Plex Mono',monospace; letter-spacing:.06em}
+.rv-seg,.rv-chips{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.rv-seg label,.rv-chips label{position:relative}
+.rv-seg input,.rv-chips input{position:absolute; opacity:0; pointer-events:none}
+.rv-seg span,.rv-chips span{display:flex; align-items:center; justify-content:center; min-height:46px; border:1.5px solid var(--line); font-size:14px; cursor:pointer}
+.rv-seg input:checked + span{background:var(--w); color:var(--bp); border-color:var(--w); font-weight:700}
+.rv-chips input:checked + span{border-color:var(--hl); color:var(--hl); background:rgba(255,215,94,.1); font-weight:700}
+.rv-chips input:checked + span::before{content:"■"; font-size:10px; margin-right:6px}
+.rv-step{display:flex; align-items:center; width:max-content; border:1.5px solid var(--line)}
+.rv-step button{width:46px; height:42px; border:0; background:none; color:var(--w); font-size:19px; cursor:pointer}
+.rv-step output{min-width:52px; text-align:center; font-family:'IBM Plex Mono',monospace}
+.rv-err{color:var(--no); font-size:13px; margin:0} .rv-err:empty{display:none}
+.rv-submit{min-height:54px; border:0; background:var(--hl); color:#1a1a1a; font:inherit; font-size:16px; font-weight:700; cursor:pointer}
+.rv-submit:disabled{opacity:.6}
+.rv-preview{font-size:11.5px; color:var(--w-2); text-align:center; margin:-6px 0 0}
+
+.results{margin-top:22px; border:1.5px solid var(--w); padding:14px 14px 16px; scroll-margin-top:16px}
+.results-h{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--w-2); letter-spacing:.1em; margin:0 0 10px!important}
+.rv-bars{display:grid; gap:8px}
+.rv-bar{display:grid; grid-template-columns:92px 1fr 22px; gap:8px; align-items:center; font-size:13px}
+.rv-bar-t{position:relative; height:14px; border:1px solid var(--line)}
+.rv-bar-t i{display:block; height:100%; background:repeating-linear-gradient(45deg,var(--w-2) 0 1.5px,transparent 1.5px 5px); transition:width .5s}
+.rv-bar.is-best .rv-bar-t i{background:var(--hl)}
+.rv-bar.is-major .rv-bar-l{color:var(--hl); font-weight:700}
+.rv-bar-n{text-align:right; font-family:'IBM Plex Mono',monospace}
+.rv-sum{font-size:12.5px; color:var(--w-2); margin:10px 0 0!important}
+.rv-sum b{color:var(--hl)}
+.rv-people{margin-top:16px; padding-top:14px; border-top:1px dashed var(--line)}
+.rv-sub{font-size:13px; margin:0 0 8px!important}
+.rv-sub b{color:var(--hl)}
+.rv-names{list-style:none; margin:0 0 14px; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.rv-names li{border:1px solid var(--line); padding:3px 10px; font-size:13.5px}
+.rv-names small{color:var(--hl)}
+.rv-names em{display:block; font-style:normal; font-size:11.5px; color:var(--w-2)}
+.rv-cars{list-style:none; margin:0 0 6px; padding:0}
+.rv-cars li{display:flex; justify-content:space-between; padding:7px 10px; font-size:13.5px; border:1px solid var(--line); margin-top:-1px}
+.rv-cars li::before{content:"P"; font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--bp); background:var(--w); width:18px; text-align:center; margin-right:8px}
+.rv-cars span{flex:1}
+.rv-cars code{font-family:'IBM Plex Mono',monospace; letter-spacing:.06em}
+.rv-no{color:var(--w-2); margin-top:12px!important}
+.rv-empty{border:0!important; padding:0!important; color:var(--w-2)}
+
+.foot{margin-top:36px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--w-2); letter-spacing:.08em}
+.toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--w); color:var(--bp); padding:10px 16px; font-size:13px; font-weight:500; transition:.25s; pointer-events:none; z-index:30}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+</style>
+</head>
+<body class="locked">
+
+<div class="lock" id="lock" role="dialog" aria-label="도어락">
+  <p class="door-no" id="doorNo"></p>
+  <div class="pad" id="pad">
+    <div class="screen" id="screen"></div>
+    <div class="keys" id="keys"></div>
+  </div>
+  <p class="lock-hint">비밀번호는 <b>우리 집 호수</b>예요</p>
+  <button class="skip" type="button" id="skip">그냥 들어갈래요</button>
+</div>
+
+<main class="sheet">
+  <div class="tb">
+    <div class="t"><small>HOUSEWARMING PLAN · A-404</small><h1>밍짜네 집들이 초대장</h1></div>
+    <span id="tbHosts"></span><span class="mono">SCALE 1:∞</span>
+  </div>
+
+  <figure class="plan">
+    <svg viewBox="0 0 340 236" aria-label="집 평면도. 방을 누르면 해당 내용으로 이동해요">
+      <line class="thin" x1="10" y1="10" x2="330" y2="10"/><text class="dim" x="150" y="7">11,400</text>
+      <a href="#rules"><rect class="room" x="10" y="16" width="96" height="88"/><text x="22" y="56">현관</text><text class="dim" x="22" y="70">금지 사항</text></a>
+      <a href="#when"><rect class="room" x="106" y="16" width="224" height="130"/><text x="186" y="74">거실</text><text class="dim" x="174" y="88">날짜 투표 · 참석</text></a>
+      <a href="#menu"><rect class="room" x="10" y="104" width="96" height="114"/><text x="22" y="156">주방</text><text class="dim" x="22" y="170">메뉴</text></a>
+      <a href="#way"><rect class="room" x="106" y="146" width="112" height="72"/><text x="118" y="180">주차장?</text><text class="dim" x="118" y="194">오시는 길</text></a>
+      <rect class="room" x="218" y="146" width="112" height="72"/><text x="230" y="180">안방</text><text class="dim" x="230" y="194">출입 금지</text>
+      <path class="thin" d="M80 104 A26 26 0 0 0 106 78"/>
+      <path class="thin" d="M218 172 A26 26 0 0 1 244 146"/>
+      <line class="thin" x1="336" y1="16" x2="336" y2="218"/><text class="dim" transform="translate(333 140) rotate(-90)">7,200</text>
+    </svg>
+    <figcaption class="legend">노란 방을 누르면 그 내용으로 이동해요</figcaption>
+  </figure>
+
+  <figure class="photo" style="margin:22px 0 0"><div id="hero">대표 사진 자리</div><div class="gallery" id="gallery" hidden></div></figure>
+
+  <section class="sec" id="rules">
+    <div class="sec-h"><span class="tag">01</span><h2>현관 · 금지 사항</h2><span class="dim">ENTRANCE</span></div>
+    <ul class="nos">
+      <li><span class="no">No!</span><b>집들이 선물</b><span>두 손은 가볍게, 추억은 무겁게</span><figure data-group class="su mem"><div><img style="--r:0.75" src="photos/memory-1.jpg" alt="추억 사진 1 (모자이크)" loading="lazy"><img style="--r:0.685" src="photos/memory-2.jpg" alt="추억 사진 2 (모자이크)" loading="lazy"><img style="--r:0.75" src="photos/memory-3.jpg" alt="추억 사진 3 (모자이크)" loading="lazy"><img style="--r:0.75" src="photos/memory-4.jpg" alt="추억 사진 4 (모자이크)" loading="lazy"></div><figcaption>FIG. 1 · 추억은 두둑하게 (모자이크 처리됨)</figcaption></figure></li>
+      <li><span class="no">No!</span><b>수 아들</b><span>마음도 편하게</span><figure class="su"><img src="photos/no-su-adeul.jpg" alt="수 아들 사진 (얼굴 모자이크)" loading="lazy"><figcaption>FIG. 2 · 수 아들 (모자이크 처리됨)</figcaption></figure></li>
+      <li><span class="no">No!</span><b>칼부림</b><span>이번 집에 러그는 없어요</span><figure data-group class="su mem knife"><div><img style="--r:0.75" src="photos/knife-1.jpg" alt="칼부림 장난 사진 1" loading="lazy"><img style="--r:0.565" src="photos/knife-2.jpg" alt="칼부림 장난 사진 2" loading="lazy"><img style="--r:0.75" src="photos/knife-3.jpg" alt="칼부림 장난 사진 3" loading="lazy"></div><figcaption>FIG. 3 · 칼부림 전과 기록 (모자이크 처리됨)</figcaption></figure></li>
+    </ul>
+  </section>
+
+  <section class="sec" id="when">
+    <div class="sec-h"><span class="tag">02</span><h2>거실 · 언제 올래?</h2><span class="dim">LIVING</span></div>
+    <p id="whenText"></p>
+    <p class="muted" id="whenSub"></p>
+    <div id="form" style="margin-top:16px"></div>
+    <div class="results"><p class="results-h">LIVE · 응답 현황</p><div id="results"></div></div>
+  </section>
+
+  <section class="sec" id="menu">
+    <div class="sec-h"><span class="tag">03</span><h2>주방 · 메뉴</h2><span class="dim">KITCHEN</span></div>
+    <p id="menuText"></p>
+    <p class="callout">※ 주방은 아직 개시 전입니다. 가스레인지 비닐도 안 뜯었어요.</p>
+  </section>
+
+  <section class="sec" id="way">
+    <div class="sec-h"><span class="tag">04</span><h2>오시는 길 · 주차</h2><span class="dim">ACCESS</span></div>
+    <p class="addr" id="unit"></p>
+    <p class="muted" id="road"></p>
+    <div class="btns">
+      <a class="btn" id="kakaoMap" target="_blank" rel="noopener">카카오맵</a>
+      <a class="btn" id="naverMap" target="_blank" rel="noopener">네이버지도</a>
+      <button class="btn" type="button" id="copyAddr">주소 복사</button>
+    </div>
+    <p class="callout" id="parking"></p>
+  </section>
+
+  <div class="btns" style="grid-template-columns:1fr; margin-top:36px"><button class="btn" type="button" id="copyLink">초대장 링크 복사</button></div>
+  <p class="foot" id="foot"></p>
+</main>
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="rsvp.js"></script>
+<script src="form.js"></script>
+<script src="lightbox.js"></script>
+<script>
+const C = INVITE, $ = id => document.getElementById(id);
+const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1600); };
+
+/* 도어락 */
+const CODE = (C.unit.match(/(\d+)호/) || [, '404'])[1];
+$('doorNo').textContent = C.unit;
+$('screen').innerHTML = '<i></i>'.repeat(CODE.length);
+$('keys').innerHTML = ['1','2','3','4','5','6','7','8','9','*','0','#'].map(k => `<button type="button" data-k="${k}">${k}</button>`).join('');
+let typed = '', ac;
+const beep = (f, d = .06, at = 0) => { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = f; g.gain.value = .04; o.connect(g); g.connect(ac.destination); o.start(ac.currentTime + at); o.stop(ac.currentTime + at + d); } catch {} };
+const dots = () => $('screen').querySelectorAll('i').forEach((d, i) => d.classList.toggle('on', i < typed.length));
+const unlock = () => {
+  try { sessionStorage.setItem('mingjja-open', '1'); } catch {}
+  [523, 659, 784, 1047].forEach((f, i) => beep(f, .09, i * .09));
+  setTimeout(() => { $('lock').classList.add('open'); document.body.classList.remove('locked'); }, 380);
+};
+$('keys').onclick = e => {
+  const k = e.target.dataset.k; if (!k) return;
+  beep(1400);
+  if (k === '*') { typed = ''; dots(); return; }
+  if (k === '#') return;
+  typed = (typed + k).slice(-CODE.length); dots();
+  if (typed.length === CODE.length) {
+    if (typed === CODE) unlock();
+    else { $('pad').classList.add('err'); beep(220, .25); setTimeout(() => { $('pad').classList.remove('err'); typed = ''; dots(); }, 450); }
+  }
+};
+$('skip').onclick = unlock;
+try { if (sessionStorage.getItem('mingjja-open')) { $('lock').hidden = true; document.body.classList.remove('locked'); } } catch {}
+
+/* 본문 */
+$('tbHosts').textContent = `설계 · 시공: ${C.hosts.join(' & ')}`;
+$('foot').textContent = `DWG NO. A-${CODE} · ${C.hosts.join(' & ')} · 2027`;
+if (C.photos.hero) { $('hero').style.backgroundImage = `url(photos/${C.photos.hero})`; $('hero').textContent = ''; }
+if (C.photos.gallery.length) { $('gallery').hidden = false; $('gallery').innerHTML = C.photos.gallery.map(p => `<img src="photos/${p}" alt="" loading="lazy">`).join(''); }
+const time = `${RSVP.fmt.time(C.start)} ~ ${RSVP.fmt.time(C.end)}`;
+if (C.confirmedDate) { $('whenText').innerHTML = `<b>${RSVP.fmt.mdw(C.confirmedDate)}</b> 확정`; $('whenSub').textContent = time; }
+else { $('whenText').textContent = '3월 토요일 중 제일 많이 되는 날로 정해요.'; $('whenSub').textContent = time; }
+$('menuText').textContent = C.menu;
+$('unit').textContent = `${C.complex} ${C.unit}`;
+$('road').textContent = C.road;
+$('parking').textContent = `P · ${C.parking}`;
+const m = RSVP.maps(); $('kakaoMap').href = m.kakao; $('naverMap').href = m.naver;
+$('copyAddr').onclick = () => RSVP.copy(RSVP.address()).then(() => toast('주소를 복사했어요'));
+$('copyLink').onclick = () => RSVP.copy(location.href.split('#')[0]).then(() => toast('링크를 복사했어요'));
+RSVPUI.mount({ form: $('form'), results: $('results'), labels: { name: 'NAME', attend: 'RSVP', dates: 'AVAILABLE · 되는 날', count: 'PEOPLE', car: 'TRANSPORT', message: 'MEMO', submit: '이대로 제출', going: '들어오는 사람' } });
+</script>
+</body>
+</html>

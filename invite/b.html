@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>밍짜네 집들이 초대장</title>
+<meta property="og:title" content="밍짜네 집들이 초대장 — 참석 계약서">
+<meta property="og:description" content="갑: 민주 & 찬호 / 을: 너. 서명만 하고 몸만 오면 됩니다.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Brush+Script&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--desk:#2f3a36; --paper:#fdfcf8; --ink:#1c1b19; --ink-2:#6b675e; --line:#2a2925; --hair:#d8d3c7; --no:#cf2f1f; --tint:#f4f1e8}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--desk); color:var(--ink); font-family:'IBM Plex Sans KR',system-ui,'Apple SD Gothic Neo',sans-serif; font-size:14.5px; line-height:1.65; word-break:keep-all; padding:24px 12px 40px; -webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+.doc{max-width:430px; margin:0 auto; background:var(--paper); padding:30px 20px 34px; position:relative; box-shadow:0 1px 0 #fff inset,0 20px 44px rgba(0,0,0,.4)}
+.doc::after{content:""; position:absolute; left:10px; right:10px; bottom:-6px; height:6px; background:#ebe7dc; z-index:-1}
+.serial{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-2); letter-spacing:.04em; margin:0 0 18px}
+.title{border-top:3px solid var(--line); border-bottom:1px solid var(--line); padding:14px 0 12px; text-align:center}
+.title small{display:block; font-family:'Nanum Myeongjo',serif; font-size:12px; letter-spacing:.4em; color:var(--ink-2)}
+h1{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:27px; margin:2px 0 0; letter-spacing:-.01em}
+.title p{margin:4px 0 0; font-family:'Nanum Myeongjo',serif; font-size:13px; color:var(--ink-2)}
+
+.photo{margin:20px 0 0; position:relative; border:1px solid var(--hair); padding:6px; background:#fff}
+.photo div{aspect-ratio:3/2; background:var(--tint) center/cover; display:flex; align-items:center; justify-content:center; color:var(--ink-2); font-size:12.5px}
+.photo figcaption{font-size:11px; color:var(--ink-2); padding-top:5px}
+.clip{position:absolute; top:-14px; left:24px; width:16px; height:44px; border:2.5px solid #9aa09c; border-radius:9px; border-bottom-color:transparent}
+
+.parties{display:grid; grid-template-columns:44px 1fr; border:1px solid var(--line); margin-top:22px; font-size:14px}
+.parties > *{padding:9px 10px; border-bottom:1px solid var(--hair)}
+.parties > :nth-last-child(-n+2){border-bottom:0}
+.parties dt{background:var(--tint); font-family:'Nanum Myeongjo',serif; font-weight:800; text-align:center; border-right:1px solid var(--line)}
+.parties dd{margin:0; display:flex; align-items:center; justify-content:space-between; gap:8px}
+.seal{display:inline-flex; width:34px; height:34px; border:2px solid var(--no); color:var(--no); border-radius:50%; align-items:center; justify-content:center; font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:10.5px; line-height:1; transform:rotate(-10deg); opacity:.85; flex:0 0 auto}
+
+.art{margin-top:26px}
+.art h2{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:16px; margin:0 0 10px}
+.art h2 span{color:var(--ink-2); font-weight:400; font-size:14px}
+.art p{margin:0}
+.muted{color:var(--ink-2); font-size:13px}
+
+.nos{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.nos li{display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:baseline; padding:13px 2px}
+.nos li + li{border-top:1px solid var(--hair)}
+.nos .no{color:var(--no); font-weight:700; font-size:33px; line-height:1; letter-spacing:-.03em}
+.nos b{font-size:21px; font-weight:700; letter-spacing:-.02em}
+.nos .su{grid-column:1/-1; margin:12px 0 2px; border:1px solid var(--hair); padding:6px; background:#fff}
+.nos .su img{display:block; width:100%; aspect-ratio:1; object-fit:cover; object-position:64% 62%}
+.nos .mem div{display:flex; gap:3px; align-items:flex-start}
+.nos .mem img{flex:var(--r) 1 0; min-width:0; width:0; height:auto; aspect-ratio:var(--r); object-fit:cover}
+.nos .su figcaption{font-size:11px; color:var(--ink-2); padding-top:5px}
+.nos li > span:not(.no){grid-column:2; color:var(--ink-2); font-size:13px; margin-top:2px}
+
+.addr{font-weight:700; font-size:15.5px}
+.btns{display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:12px}
+.btn{display:flex; align-items:center; justify-content:center; min-height:42px; border:1px solid var(--line); background:var(--paper); color:var(--ink); font:inherit; font-size:13px; font-weight:500; text-decoration:none; cursor:pointer}
+.btn:active{background:var(--tint)}
+.ol{margin:0; padding-left:20px} .ol li{margin:3px 0}
+
+/* 서명란 = 폼 */
+.sign{margin-top:30px; border:1.5px solid var(--line); padding:18px 16px 18px; background:#fffef9}
+.sign h2{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:16px; margin:0; text-align:center}
+.sign > p{text-align:center; margin:4px 0 0}
+.rv-form{display:grid; gap:16px; margin-top:18px}
+.rv-field{display:grid; gap:6px; margin:0}
+.rv-label{font-size:12.5px; font-weight:700; color:var(--ink-2); letter-spacing:.04em}
+.rv-hint{font-size:12.5px; color:var(--ink-2); margin:0}
+.rv-hint b{color:var(--ink)}
+.rv-form input[name=name]{border:0; border-bottom:1.5px solid var(--line); background:transparent; font-family:'Nanum Brush Script',cursive; font-size:32px; padding:0 2px; min-height:48px; color:#1d2d6b; width:100%; border-radius:0}
+.rv-form input[name=name]::placeholder{font-family:'IBM Plex Sans KR',sans-serif; font-size:13px; color:#aaa59a}
+.rv-form input[name=message],.rv-car{width:100%; min-height:44px; padding:0 10px; border:1px solid var(--hair); background:#fff; font:inherit; font-size:16px; color:var(--ink); border-radius:0}
+.rv-seg,.rv-chips{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line)}
+.rv-chips{gap:0}
+.rv-seg label,.rv-chips label{position:relative}
+.rv-seg label + label{border-left:1px solid var(--line)}
+.rv-chips label:nth-child(2n){border-left:1px solid var(--line)}
+.rv-chips label:nth-child(n+3){border-top:1px solid var(--line)}
+.rv-seg input,.rv-chips input{position:absolute; opacity:0; pointer-events:none}
+.rv-seg span,.rv-chips span{display:flex; align-items:center; justify-content:center; gap:6px; min-height:46px; font-size:14px; cursor:pointer; background:#fff}
+.rv-chips span::before{content:""; width:15px; height:15px; border:1.5px solid var(--line); flex:0 0 auto}
+.rv-chips input:checked + span::before{background:var(--line); box-shadow:inset 0 0 0 2.5px #fff}
+.rv-chips input:checked + span{font-weight:700}
+.rv-seg input:checked + span{background:var(--ink); color:var(--paper)}
+.rv-step{display:flex; align-items:center; width:max-content; border:1px solid var(--line); background:#fff}
+.rv-step button{width:44px; height:42px; border:0; background:none; font-size:19px; cursor:pointer; color:var(--ink)}
+.rv-step output{min-width:50px; text-align:center}
+.rv-err{color:var(--no); font-size:13px; margin:0} .rv-err:empty{display:none}
+.rv-submit{min-height:54px; border:0; background:var(--no); color:#fff; font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:17px; letter-spacing:.06em; cursor:pointer}
+.rv-submit:disabled{opacity:.6}
+.rv-preview{font-size:11.5px; color:var(--ink-2); text-align:center; margin:-6px 0 0}
+
+/* 체결 현황 */
+.results{margin-top:28px; scroll-margin-top:16px}
+.results h2{font-family:'Nanum Myeongjo',serif; font-weight:800; font-size:16px; margin:0 0 12px}
+.rv-bars{border:1px solid var(--line)}
+.rv-bar{display:grid; grid-template-columns:100px 1fr 34px; align-items:center; font-size:13.5px}
+.rv-bar + .rv-bar{border-top:1px solid var(--hair)}
+.rv-bar > *{padding:9px 10px}
+.rv-bar-l{background:var(--tint); border-right:1px solid var(--hair)}
+.rv-bar-t{display:block; padding:0 10px}
+.rv-bar-t i{display:block; height:12px; background:repeating-linear-gradient(-45deg,var(--ink) 0 2px,transparent 2px 5px); transition:width .5s}
+.rv-bar.is-best .rv-bar-t i{background:var(--no)}
+.rv-bar.is-major .rv-bar-l{color:var(--no); font-weight:700}
+.rv-bar-n{text-align:right; font-weight:700}
+.rv-sum{font-size:12.5px; color:var(--ink-2); margin:8px 0 0}
+.rv-sum b{color:var(--no)}
+.rv-people{margin-top:18px}
+.rv-sub{font-size:13.5px; margin:0 0 6px; font-weight:500}
+.rv-sub b{color:var(--no)}
+.rv-names{list-style:none; margin:0 0 16px; padding:0; display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line)}
+.rv-names li{padding:8px 4px; border-bottom:1px solid var(--hair); font-family:'Nanum Brush Script',cursive; font-size:24px; line-height:1.15; color:#1d2d6b}
+.rv-names small{font-family:'IBM Plex Sans KR',sans-serif; font-size:12px; color:var(--no)}
+.rv-names em{display:block; font-family:'IBM Plex Sans KR',sans-serif; font-style:normal; font-size:11.5px; color:var(--ink-2)}
+.rv-cars{list-style:none; margin:0 0 6px; padding:0; border:1px solid var(--line); font-size:13.5px}
+.rv-cars li{display:flex; justify-content:space-between; padding:8px 10px}
+.rv-cars li + li{border-top:1px solid var(--hair)}
+.rv-cars code{font-family:inherit; font-weight:700; letter-spacing:.08em}
+.rv-no{color:var(--ink-2); font-weight:400; margin-top:12px}
+.rv-empty{font-family:'IBM Plex Sans KR',sans-serif!important; font-size:13px!important; color:var(--ink-2)!important; grid-column:1/-1}
+
+.foot{margin-top:30px; padding-top:14px; border-top:3px double var(--line); text-align:center; font-family:'Nanum Myeongjo',serif; font-size:13px; color:var(--ink-2)}
+.foot b{display:block; font-size:16px; color:var(--ink); letter-spacing:.2em; margin-top:4px}
+.share{max-width:430px; margin:18px auto 0}
+.share .btn{width:100%; background:transparent; color:#dfe5e1; border-color:#6e7a74}
+.toast{position:fixed; left:50%; bottom:28px; transform:translate(-50%,20px); opacity:0; background:var(--ink); color:var(--paper); padding:10px 16px; font-size:13px; transition:.25s; pointer-events:none; z-index:9}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<main class="doc">
+  <p class="serial"><span>문서번호 밍짜-2027-0404</span><span>보존기한: 영구</span></p>
+  <div class="title">
+    <small>표준 집들이 참석 계약서</small>
+    <h1>밍짜네 집들이 초대장</h1>
+    <p>아래 당사자는 다음과 같이 집들이 참석 계약을 체결한다.</p>
+  </div>
+
+  <figure class="photo"><span class="clip"></span><div id="hero">별첨 1. 대표 사진</div><figcaption>별첨 1 · 계약 목적물 (우리 집)</figcaption></figure>
+
+  <dl class="parties">
+    <dt>갑</dt><dd><span id="hostNames"></span><span class="seal">밍짜<br>인</span></dd>
+    <dt>을</dt><dd><span>이 링크를 받은 당신</span><span class="muted">(서명란 참조)</span></dd>
+  </dl>
+
+  <section class="art">
+    <h2>제1조 <span>(목적)</span></h2>
+    <p>본 계약은 갑이 처음 마련한 집을 을에게 자랑하고, 을은 그 자랑을 들어주며 배달음식을 함께 먹는 것을 목적으로 한다.</p>
+  </section>
+
+  <section class="art">
+    <h2>제2조 <span>(금지 사항)</span></h2>
+    <ul class="nos">
+      <li><span class="no">No!</span><b>집들이 선물</b><span>두 손은 가볍게, 추억은 무겁게</span><figure data-group class="su mem"><div><img style="--r:0.75" src="photos/memory-1.jpg" alt="추억 사진 1 (모자이크)" loading="lazy"><img style="--r:0.685" src="photos/memory-2.jpg" alt="추억 사진 2 (모자이크)" loading="lazy"><img style="--r:0.75" src="photos/memory-3.jpg" alt="추억 사진 3 (모자이크)" loading="lazy"><img style="--r:0.75" src="photos/memory-4.jpg" alt="추억 사진 4 (모자이크)" loading="lazy"></div><figcaption>별첨 1-2 · 추억은 두둑하게 (모자이크 처리)</figcaption></figure></li>
+      <li><span class="no">No!</span><b>수 아들</b><span>마음도 편하게</span><figure class="su"><img src="photos/no-su-adeul.jpg" alt="수 아들 사진 (얼굴 모자이크)" loading="lazy"><figcaption>별첨 2 · 수 아들 (초상권 보호를 위해 모자이크 처리)</figcaption></figure></li>
+      <li><span class="no">No!</span><b>칼부림</b><span>이번 집에 러그는 없어요</span><figure data-group class="su mem knife"><div><img style="--r:0.75" src="photos/knife-1.jpg" alt="칼부림 장난 사진 1" loading="lazy"><img style="--r:0.565" src="photos/knife-2.jpg" alt="칼부림 장난 사진 2" loading="lazy"><img style="--r:0.75" src="photos/knife-3.jpg" alt="칼부림 장난 사진 3" loading="lazy"></div><figcaption>별첨 3 · 칼부림 전과 기록 (모자이크 처리)</figcaption></figure></li>
+    </ul>
+  </section>
+
+  <section class="art">
+    <h2>제3조 <span>(일시)</span></h2>
+    <p id="whenText"></p>
+  </section>
+
+  <section class="art">
+    <h2>제4조 <span>(장소)</span></h2>
+    <p class="addr" id="unit"></p>
+    <p class="muted" id="road"></p>
+    <div class="btns">
+      <a class="btn" id="kakaoMap" target="_blank" rel="noopener">카카오맵</a>
+      <a class="btn" id="naverMap" target="_blank" rel="noopener">네이버지도</a>
+      <button class="btn" type="button" id="copyAddr">주소 복사</button>
+    </div>
+  </section>
+
+  <section class="art">
+    <h2>제5조 <span>(특약 사항)</span></h2>
+    <ol class="ol">
+      <li id="parking"></li>
+      <li id="menu"></li>
+      <li>을이 지각하는 경우 연락만 주면 갑은 음식을 남겨둔다.</li>
+    </ol>
+  </section>
+
+  <section class="sign">
+    <h2>을의 서명</h2>
+    <p class="muted">아래 내용을 적고 제출하면 계약이 체결됩니다</p>
+    <div id="form"></div>
+  </section>
+
+  <section class="results" id="resultsWrap">
+    <h2>계약 체결 현황</h2>
+    <div id="results"></div>
+  </section>
+
+  <div class="foot">2027년 3월<b id="footHosts"></b></div>
+</main>
+<div class="share"><button class="btn" type="button" id="copyLink">계약서 링크 복사</button></div>
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="rsvp.js"></script>
+<script src="form.js"></script>
+<script src="lightbox.js"></script>
+<script>
+const C = INVITE, $ = id => document.getElementById(id);
+const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1600); };
+$('hostNames').textContent = C.hosts.join(' & ');
+$('footHosts').textContent = `갑 ${C.hosts.join(' · ')} (인)`;
+if (C.photos.hero) { $('hero').style.backgroundImage = `url(photos/${C.photos.hero})`; $('hero').textContent = ''; }
+const time = `${RSVP.fmt.time(C.start)}부터 ${RSVP.fmt.time(C.end)}까지`;
+$('whenText').textContent = C.confirmedDate
+  ? `${RSVP.fmt.mdw(C.confirmedDate)} ${time}로 한다.`
+  : `${C.dates.map(RSVP.fmt.md).join(', ')} 토요일 중 을들의 과반이 가능한 날로 하며, 시간은 ${time}로 한다.`;
+$('unit').textContent = `${C.complex} ${C.unit}`;
+$('road').textContent = C.road;
+$('parking').textContent = '차를 가져오는 을은 방문차량 등록을 위해 서명란에 차량번호를 적는다.';
+$('menu').textContent = `식사는 ${C.menu.split(' (')[0]}로 하며, 메뉴 선택권은 한마디란에 적은 을에게 우선한다.`;
+const m = RSVP.maps(); $('kakaoMap').href = m.kakao; $('naverMap').href = m.naver;
+$('copyAddr').onclick = () => RSVP.copy(RSVP.address()).then(() => toast('주소를 복사했어요'));
+$('copyLink').onclick = () => RSVP.copy(location.href).then(() => toast('링크를 복사했어요'));
+RSVPUI.mount({ form: $('form'), results: $('results'),
+  labels: { name: '을 (서명)', attend: '참석 의사', dates: '가능한 날', count: '동반 인원 포함', car: '교통수단', message: '한마디', submit: '서명하고 제출', going: '서명한 을' } });
+</script>
+</body>
+</html>
