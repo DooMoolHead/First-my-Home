@@ -4,7 +4,9 @@
  */
 /** 호스트 비밀번호: 초대장에서 '호스트'를 누르고 이 값을 넣으면 응답을 삭제할 수 있어요. 꼭 바꾸세요. */
 const ADMIN_KEY = '여기에-비밀번호';
-const HEAD = ['ts', 'name', 'attend', 'dates', 'count', 'car', 'message', 'transport', 'ride'];
+const HEAD = ['ts', 'name', 'attend', 'dates', 'count', 'car', 'message', 'transport', 'ride', 'tok'];
+/* 호스트가 아직 '날짜 저장'을 한 번도 안 했을 때 쓰는 후보 날짜 (초대장 config.js 와 같게) */
+const DEFAULT_DATES = ['2027-03-06', '2027-03-13', '2027-03-20', '2027-03-27'];
 
 /* 시트에 넣는 글자는 앞에 ' 를 붙여 '그냥 글자'로 저장한다.
    - '=…', '+…', '-…', '@…' 로 시작하는 값을 시트가 수식으로 실행하지 않게 (수식 주입 방지)
@@ -23,6 +25,11 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
    인원: MAX_PEOPLE 명이 넘는 새 이름은 거절 (가짜 이름 도배 방지)
    비밀번호: 1분에 MAX_BAD_KEYS_PER_MIN 번 넘게 틀리면 잠깐 막음 (4자리 비밀번호 찍기 방지)
    목록: 같은 응답을 LIST_CACHE_SEC 초 동안 저장해 두고 돌려줌 (조회 폭주 시 시트 부담 감소) */
+/* ── 입력 검사: 초대장 화면의 검사는 우회할 수 있으니 여기서 한 번 더 ── */
+const NAME_RE = /^[가-힣a-zA-Z0-9 ]{1,10}$/;            // 한글 완성형·영문·숫자·공백, 10자
+const CAR_RE = /^\d{2,3}\s?[가-힣]\s?\d{4}$/;          // 12가 3456, 123가4567
+const TRANSPORTS = ['transit', 'car', 'ride'];
+function candidates_() { const s = settings_(); return (s.dates && s.dates.length) ? s.dates : DEFAULT_DATES; }
 const MAX_WRITES_PER_MIN = 30;
 const MAX_PEOPLE = 150;
 const MAX_BAD_KEYS_PER_MIN = 20;
@@ -105,18 +112,33 @@ function doPost(e) {
       return done_();
     }
     const x = body.entry || {};
-    const name = String(x.name || '').trim().slice(0, 30);
-    if (!name) return out_({ ok: false, error: 'name' });
-    const dates = (x.dates || []).map(String).filter(d => DATE_RE.test(d)).slice(0, 20);
-    const row = [new Date(), txt_(name), x.attend === 'no' ? 'no' : 'yes',
-      txt_(dates.join(',')), Math.min(Number(x.count) || 1, 10),
-      txt_(String(x.car || '').slice(0, 15)), txt_(String(x.message || '').slice(0, 200)),
-      txt_(String(x.transport || '').slice(0, 10)), txt_(String(x.ride || '').slice(0, 20))];
+    const name = String(x.name || '').trim().replace(/\s+/g, ' ');
+    if (!NAME_RE.test(name)) return out_({ ok: false, error: 'name-format' });
+    const attend = x.attend === 'no' ? 'no' : 'yes';
+    const go = attend === 'yes';
+    const cand = candidates_();
+    // 후보에 있는 날짜만, 중복 없이. 불참이면 날짜 없음
+    const dates = go ? cand.filter(d => (x.dates || []).map(String).indexOf(d) >= 0) : [];
+    if (go && !dates.length) return out_({ ok: false, error: 'dates' });
+    const transport = go ? (TRANSPORTS.indexOf(x.transport) >= 0 ? x.transport : 'transit') : '';
+    const car = transport === 'car' ? String(x.car || '').trim() : '';
+    if (transport === 'car' && !CAR_RE.test(car)) return out_({ ok: false, error: 'car' });
+    const ride = transport === 'ride' ? String(x.ride || '').trim().slice(0, 10) : '';
+    const message = String(x.message || '').trim().slice(0, 60);
+
     const sh = sheet_();
-    const names = sh.getRange(1, 2, sh.getLastRow(), 1).getValues().map(r => str_(r[0]).replace(/\s+/g, ''));
-    const i = names.indexOf(name.replace(/\s+/g, ''));
-    if (i <= 0 && names.length - 1 >= MAX_PEOPLE) return out_({ ok: false, error: 'full' });
+    const all = sh.getDataRange().getValues();
+    const i = all.findIndex((r, k) => k > 0 && str_(r[1]).replace(/\s+/g, '') === name.replace(/\s+/g, ''));
+    if (i < 0 && all.length - 1 >= MAX_PEOPLE) return out_({ ok: false, error: 'full' });
+    // 이미 있는 이름은 처음 등록한 폰(같은 tok)이나 호스트만 고칠 수 있음
+    const oldTok = i > 0 ? str_(all[i][9]) : '';
+    const isHost = body.key ? keyOk_(body.key) === '' : false;
+    if (oldTok && oldTok !== String(x.token || '') && !isHost) return out_({ ok: false, error: 'owner' });
+    const tok = oldTok || Utilities.getUuid();
+    const row = [new Date(), txt_(name), attend, txt_(dates.join(',')), go ? 1 : 0,
+      txt_(car), txt_(message), txt_(transport), txt_(ride), txt_(tok)];
     if (i > 0) sh.getRange(i + 1, 1, 1, row.length).setValues([row]); else sh.appendRow(row);
-    return done_();
+    cache_().remove('list');
+    return out_(Object.assign(payload_(), { token: tok }));
   } finally { lock.releaseLock(); }
 }
